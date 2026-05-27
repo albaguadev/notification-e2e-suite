@@ -148,16 +148,14 @@ def notification_page(page: Page):
 def query_page(page: Page):
     """Provide QueryPage instance for tests.
     
-    This fixture will return a QueryPage instance once the Page Object Model
-    is implemented in task 8.2. For now, it returns the raw page object.
+    This fixture returns a QueryPage instance for interacting with
+    the notification query UI using the Page Object Model pattern.
     
     Args:
         page: Playwright page fixture
         
     Returns:
-        QueryPage instance (placeholder: returns Page for now)
+        QueryPage instance
     """
-    # TODO: Replace with QueryPage(page) once task 8.2 is complete
-    # from pages.query_page import QueryPage
-    # return QueryPage(page)
-    return page
+    from pages.query_page import QueryPage
+    return QueryPage(page)
