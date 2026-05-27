@@ -1,0 +1,46 @@
+[project]
+name = "notification-e2e-suite"
+version = "0.1.0"
+description = "E2E test suite for the Notification React frontend application"
+requires-python = ">=3.8"
+dependencies = [
+    "playwright>=1.40.0",
+    "pytest>=7.4.0",
+    "pytest-playwright>=0.4.0",
+    "pytest-html>=4.1.0",
+    "hypothesis>=6.92.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit_test: Unit tests for specific examples and edge cases",
+    "property_test: Property-based tests using Hypothesis",
+    "e2e_test: End-to-end user flow tests",
+]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311"]
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203", "W503"]
