@@ -9,9 +9,9 @@ The implementation is organized to enable early validation through incremental d
 ## Tasks
 
 - [x] 1. Set up React frontend project structure
-  - Initialize React application with Create React App or Vite
-  - Configure project dependencies (React 18+, fetch API)
-  - Set up CSS Modules or styled-components for styling
+  - Initialize React application with Vite
+  - Configure project dependencies (React 18+, TypeScript)
+  - Set up CSS for styling
   - Create directory structure: src/components, src/api, src/utils
   - Add data-testid attributes to all interactive elements for testing
   - _Requirements: 1.1, 1.2, 12.3_
@@ -33,7 +33,7 @@ The implementation is organized to enable early validation through incremental d
   
   - [x] 2.3 Implement subject field visibility logic
     - Add conditional rendering to show subject field only for EMAIL type
-    - Implement useEffect hook to manage subject field visibility based on type selection
+    - Implement logic to manage subject field visibility based on type selection
     - Ensure subject field remains visible when user has entered text until form submission or manual clear
     - _Requirements: 2.5, 6.6_
   
@@ -109,6 +109,7 @@ The implementation is organized to enable early validation through incremental d
     - Display error messages for failed queries
     - _Requirements: 4.4, 4.5, 7.6_
 
+
 - [ ] 6. Checkpoint - Test frontend with backend integration
   - Start backend server on http://localhost:8081
   - Test sending notifications through UI for all channel types
@@ -166,6 +167,7 @@ The implementation is organized to enable early validation through incremental d
   - Verify fixtures are properly initialized
   - Ask the user if questions arise
 
+
 - [ ] 10. Implement unit tests for component rendering
   - [ ] 10.1 Write tests for NotificationForm rendering
     - Test that all form fields render correctly
@@ -217,7 +219,7 @@ The implementation is organized to enable early validation through incremental d
     - Mock backend response with invalid JSON
     - Verify UI fails silently with no error message
     - Test that application doesn't crash
-    - _Requirements: 3.6, 7.7_
+    - _Requirements: 3.6_
   
   - [ ]* 12.3 Write test for 200 response with error content
     - Mock backend returning 200 with error information in body
@@ -229,6 +231,7 @@ The implementation is organized to enable early validation through incremental d
     - Switch notification type from EMAIL to SMS
     - Verify subject field remains visible until form submission or manual clear
     - _Requirements: 6.6_
+
 
 - [ ] 13. Create Hypothesis strategies for property-based testing
   - [ ] 13.1 Create test data generators in utils/generators.py
@@ -349,6 +352,7 @@ The implementation is organized to enable early validation through incremental d
     - Run minimum 100 iterations
     - _Requirements: 6.2, 6.4_
 
+
 - [ ] 15. Checkpoint - Verify property-based tests
   - Run all property tests with minimum 100 iterations
   - Review test coverage for all correctness properties
@@ -412,6 +416,7 @@ The implementation is organized to enable early validation through incremental d
     - Add screenshots to HTML reports
     - _Requirements: 8.2_
 
+
 - [ ] 19. Configure CI/CD support
   - [ ] 19.1 Add CI/CD configuration
     - Create configuration for headless browser mode
@@ -452,7 +457,7 @@ The implementation is organized to enable early validation through incremental d
 ## Notes
 
 - Tasks marked with `*` are optional and can be skipped for faster MVP delivery
-- The React frontend uses JavaScript with functional components and hooks (Requirements 1.1, 1.2, 1.3)
+- The React frontend uses TypeScript with functional components and hooks (Requirements 1.1, 1.2, 1.3)
 - The test suite uses Python with Playwright and Hypothesis for property-based testing (Requirements 5.1)
 - Each task references specific requirements for traceability
 - Checkpoints ensure incremental validation and quality gates
@@ -463,15 +468,16 @@ The implementation is organized to enable early validation through incremental d
 - All React components must include data-testid attributes for reliable test automation
 - Test cleanup operations fail silently to prevent test suite interruption (Requirement 11.5)
 
+
 ## Task Dependency Graph
 
 ```json
 {
   "waves": [
-    { "id": 0, "tasks": ["1.1", "7.1"] },
-    { "id": 1, "tasks": ["2.1", "7.2"] },
-    { "id": 2, "tasks": ["2.2", "2.5", "7.3"] },
-    { "id": 3, "tasks": ["2.3", "2.4", "2.6", "8.1", "8.2"] },
+    { "id": 0, "tasks": ["7.1"] },
+    { "id": 1, "tasks": ["7.2"] },
+    { "id": 2, "tasks": ["7.3"] },
+    { "id": 3, "tasks": ["8.1", "8.2"] },
     { "id": 4, "tasks": ["4.1", "10.1", "10.2"] },
     { "id": 5, "tasks": ["4.2", "4.3", "11.1", "11.2", "11.3", "11.4"] },
     { "id": 6, "tasks": ["5.1", "5.2", "12.1", "12.2", "12.3", "12.4", "13.1"] },
