@@ -6,7 +6,33 @@ and test data management.
 """
 
 import pytest
-from playwright.sync_api import Page
+from playwright.sync_api import Page, BrowserContext
+from pathlib import Path
+
+
+def pytest_configure(config):
+    """Configure pytest with custom settings."""
+    # Create reports directory if it doesn't exist
+    reports_dir = Path("reports")
+    reports_dir.mkdir(exist_ok=True)
+    
+    # Create screenshots directory if it doesn't exist
+    screenshots_dir = Path("reports/screenshots")
+    screenshots_dir.mkdir(exist_ok=True)
+
+
+@pytest.fixture(scope="function")
+def browser_context_args(browser_context_args):
+    """Configure browser context with screenshot settings.
+    
+    This fixture extends the default browser_context_args to enable
+    screenshot capture for all tests.
+    """
+    return {
+        **browser_context_args,
+        "viewport": {"width": 1280, "height": 720},
+        "record_video_dir": None,  # Disable video recording by default
+    }
 
 
 @pytest.fixture(scope="function")
@@ -30,6 +56,27 @@ def test_data():
             'message': 'Test WhatsApp'
         }
     }
+
+
+@pytest.fixture(scope="function", autouse=True)
+def auto_screenshot(page: Page, request):
+    """Automatically capture screenshots for all tests.
+    
+    Takes a screenshot after each test completes, regardless of pass/fail status.
+    Screenshots are saved to reports/screenshots/ directory.
+    """
+    yield
+    
+    try:
+        # Generate screenshot filename from test name
+        test_name = request.node.name
+        screenshot_path = Path("reports/screenshots") / f"{test_name}.png"
+        
+        # Capture screenshot
+        page.screenshot(path=str(screenshot_path))
+    except Exception:
+        # Silent failure as per requirement 11.5
+        pass
 
 
 @pytest.fixture(scope="function", autouse=True)
