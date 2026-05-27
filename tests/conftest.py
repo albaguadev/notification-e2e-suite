@@ -6,8 +6,9 @@ and test data management.
 """
 
 import pytest
-from playwright.sync_api import Page, BrowserContext
+from playwright.sync_api import Page, BrowserContext, Browser
 from pathlib import Path
+from typing import Generator
 
 
 def pytest_configure(config):
@@ -33,6 +34,36 @@ def browser_context_args(browser_context_args):
         "viewport": {"width": 1280, "height": 720},
         "record_video_dir": None,  # Disable video recording by default
     }
+
+
+@pytest.fixture(scope="function")
+def browser_context(browser: Browser, browser_context_args) -> Generator[BrowserContext, None, None]:
+    """Provide a fresh browser context for each test.
+    
+    This fixture creates a new browser context for test isolation,
+    ensuring each test starts with a clean state.
+    
+    Yields:
+        BrowserContext: A fresh browser context instance
+    """
+    context = browser.new_context(**browser_context_args)
+    yield context
+    context.close()
+
+
+@pytest.fixture(scope="function")
+def page(browser_context: BrowserContext) -> Generator[Page, None, None]:
+    """Provide a fresh page for each test.
+    
+    This fixture creates a new page within the browser context,
+    ensuring test isolation at the page level.
+    
+    Yields:
+        Page: A fresh page instance
+    """
+    page = browser_context.new_page()
+    yield page
+    page.close()
 
 
 @pytest.fixture(scope="function")
@@ -94,3 +125,41 @@ def cleanup(page: Page):
     except Exception:
         # Silent failure as per requirement 11.5
         pass
+
+
+@pytest.fixture(scope="function")
+def notification_page(page: Page):
+    """Provide NotificationPage instance for tests.
+    
+    This fixture will return a NotificationPage instance once the Page Object Model
+    is implemented in task 8.1. For now, it returns the raw page object.
+    
+    Args:
+        page: Playwright page fixture
+        
+    Returns:
+        NotificationPage instance (placeholder: returns Page for now)
+    """
+    # TODO: Replace with NotificationPage(page) once task 8.1 is complete
+    # from pages.notification_page import NotificationPage
+    # return NotificationPage(page)
+    return page
+
+
+@pytest.fixture(scope="function")
+def query_page(page: Page):
+    """Provide QueryPage instance for tests.
+    
+    This fixture will return a QueryPage instance once the Page Object Model
+    is implemented in task 8.2. For now, it returns the raw page object.
+    
+    Args:
+        page: Playwright page fixture
+        
+    Returns:
+        QueryPage instance (placeholder: returns Page for now)
+    """
+    # TODO: Replace with QueryPage(page) once task 8.2 is complete
+    # from pages.query_page import QueryPage
+    # return QueryPage(page)
+    return page
