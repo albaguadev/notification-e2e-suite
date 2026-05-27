@@ -142,7 +142,7 @@ The implementation is organized to enable early validation through incremental d
     - _Requirements: 5.5, 11.2, 11.4, 11.5_
 
 - [ ] 8. Implement Page Object Models
-  - [ ] 8.1 Create NotificationPage class
+  - [x] 8.1 Create NotificationPage class
     - Define locators for all form elements using data-testid attributes
     - Implement navigate() method to load application
     - Add select_type() method for notification type selection

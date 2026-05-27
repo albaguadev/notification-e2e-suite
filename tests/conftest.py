@@ -131,19 +131,17 @@ def cleanup(page: Page):
 def notification_page(page: Page):
     """Provide NotificationPage instance for tests.
     
-    This fixture will return a NotificationPage instance once the Page Object Model
-    is implemented in task 8.1. For now, it returns the raw page object.
+    This fixture returns a NotificationPage instance for interacting with
+    the notification form UI using the Page Object Model pattern.
     
     Args:
         page: Playwright page fixture
         
     Returns:
-        NotificationPage instance (placeholder: returns Page for now)
+        NotificationPage instance
     """
-    # TODO: Replace with NotificationPage(page) once task 8.1 is complete
-    # from pages.notification_page import NotificationPage
-    # return NotificationPage(page)
-    return page
+    from pages.notification_page import NotificationPage
+    return NotificationPage(page)
 
 
 @pytest.fixture(scope="function")
