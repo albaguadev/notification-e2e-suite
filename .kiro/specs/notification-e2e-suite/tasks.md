@@ -141,7 +141,7 @@ The implementation is organized to enable early validation through incremental d
     - Add fixtures for NotificationPage and QueryPage instances
     - _Requirements: 5.5, 11.2, 11.4, 11.5_
 
-- [ ] 8. Implement Page Object Models
+- [x] 8. Implement Page Object Models
   - [x] 8.1 Create NotificationPage class
     - Define locators for all form elements using data-testid attributes
     - Implement navigate() method to load application
@@ -152,7 +152,7 @@ The implementation is organized to enable early validation through incremental d
     - Add is_subject_visible() to check subject field visibility
     - _Requirements: 6.1_
   
-  - [ ] 8.2 Create QueryPage class
+  - [x] 8.2 Create QueryPage class
     - Define locators for filter inputs and results area
     - Implement navigate() method
     - Add apply_filters() method with optional parameters
