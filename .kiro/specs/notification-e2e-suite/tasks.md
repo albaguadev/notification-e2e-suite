@@ -16,14 +16,14 @@ The implementation is organized to enable early validation through incremental d
   - Add data-testid attributes to all interactive elements for testing
   - _Requirements: 1.1, 1.2, 12.3_
 
-- [ ] 2. Implement core React UI components
-  - [ ] 2.1 Create App component with layout structure
+- [x] 2. Implement core React UI components
+  - [x] 2.1 Create App component with layout structure
     - Implement root component with header and main content area
     - Set up component composition for NotificationForm and NotificationQuery
     - Add global styling and theme
     - _Requirements: 1.2, 2.1_
   
-  - [ ] 2.2 Implement NotificationForm component with state management
+  - [x] 2.2 Implement NotificationForm component with state management
     - Create functional component with useState hooks for form state (type, recipient, message, subject)
     - Implement useState hooks for UI state (errors, status, responseMessage)
     - Add form field rendering with proper labels and data-testid attributes
@@ -31,13 +31,13 @@ The implementation is organized to enable early validation through incremental d
     - Add dropdown for notification type selection (EMAIL, SMS, WHATSAPP)
     - _Requirements: 1.2, 1.3, 2.1, 2.4_
   
-  - [ ] 2.3 Implement subject field visibility logic
+  - [x] 2.3 Implement subject field visibility logic
     - Add conditional rendering to show subject field only for EMAIL type
     - Implement useEffect hook to manage subject field visibility based on type selection
     - Ensure subject field remains visible when user has entered text until form submission or manual clear
     - _Requirements: 2.5, 6.6_
   
-  - [ ] 2.4 Implement client-side validation logic
+  - [x] 2.4 Implement client-side validation logic
     - Add validation functions for email format (RFC 5322 compliant regex)
     - Add validation for SMS phone numbers (ES region: +34 followed by 9 digits starting with 6 or 7)
     - Add validation for WhatsApp phone numbers (E.164 format with + prefix)
@@ -46,13 +46,13 @@ The implementation is organized to enable early validation through incremental d
     - Prevent form submission when validation fails
     - _Requirements: 2.4, 2.6, 6.2, 6.4_
   
-  - [ ] 2.5 Create StatusDisplay component
+  - [x] 2.5 Create StatusDisplay component
     - Implement presentational component with props for type, message, and onDismiss
     - Add styling for success, error, and info message types
     - Implement dismiss functionality with optional callback
     - _Requirements: 2.3_
   
-  - [ ] 2.6 Implement NotificationQuery component
+  - [x] 2.6 Implement NotificationQuery component
     - Create functional component with useState hooks for filters and results
     - Add filter form with inputs for type, status, from date, and to date
     - Implement controlled inputs for all filter fields

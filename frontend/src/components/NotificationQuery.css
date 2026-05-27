@@ -1,0 +1,246 @@
+.notification-query-container {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.notification-query-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: var(--text-h);
+  font-size: 24px;
+}
+
+.query-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.query-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.query-form .form-group label {
+  font-weight: 500;
+  color: var(--text-h);
+  font-size: 15px;
+}
+
+.query-form input,
+.query-form select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.query-form input:focus,
+.query-form select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.search-button,
+.clear-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.search-button {
+  background: var(--accent);
+  color: white;
+  flex: 1;
+}
+
+.search-button:hover:not(:disabled) {
+  background: rgba(170, 59, 255, 0.85);
+  transform: translateY(-1px);
+}
+
+.clear-button {
+  background: var(--border);
+  color: var(--text-h);
+}
+
+.clear-button:hover:not(:disabled) {
+  background: var(--code-bg);
+  transform: translateY(-1px);
+}
+
+.search-button:disabled,
+.clear-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.results-section {
+  min-height: 100px;
+}
+
+.loading-message,
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text);
+  font-size: 16px;
+}
+
+.results-table-container {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.results-table thead {
+  background: var(--code-bg);
+}
+
+.results-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-h);
+  border-bottom: 2px solid var(--border);
+}
+
+.results-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.results-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.results-table tbody tr:hover {
+  background: var(--accent-bg);
+}
+
+.message-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timestamp-cell {
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.type-badge--email {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.type-badge--sms {
+  background: #d4edda;
+  color: #155724;
+}
+
+.type-badge--whatsapp {
+  background: #d1f2eb;
+  color: #0c5460;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--code-bg);
+  color: var(--text-h);
+}
+
+@media (prefers-color-scheme: dark) {
+  .type-badge--email {
+    background: #0c3d47;
+    color: #d1ecf1;
+  }
+
+  .type-badge--sms {
+    background: #1e4620;
+    color: #d4edda;
+  }
+
+  .type-badge--whatsapp {
+    background: #0c4a3d;
+    color: #d1f2eb;
+  }
+}
+
+@media (max-width: 768px) {
+  .notification-query-container {
+    padding: 20px;
+  }
+
+  .notification-query-container h2 {
+    font-size: 20px;
+  }
+
+  .filter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .results-table {
+    font-size: 13px;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 8px;
+  }
+
+  .message-cell {
+    max-width: 150px;
+  }
+}
