@@ -7,7 +7,54 @@
  * Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 4.1, 4.3
  */
 
-const API_BASE_URL = 'http://localhost:8081/api/v1'
+const API_BASE_URL = '/api/v1'
+
+/**
+ * Date/Time Constants for Query Filters
+ * 
+ * These constants define the time boundaries for date range queries.
+ * They ensure that when a user selects a date range, the query includes
+ * the complete day(s) selected, not just a single moment in time.
+ */
+
+/**
+ * START_OF_DAY_HOURS = 0
+ * Represents the beginning of a day (00:00:00)
+ * Used for the 'from' parameter to include all notifications from the start of the selected day
+ * Example: If user selects 2026-05-27, we query from 2026-05-27T00:00:00Z
+ */
+const START_OF_DAY_HOURS = 0
+const START_OF_DAY_MINUTES = 0
+const START_OF_DAY_SECONDS = 0
+
+/**
+ * END_OF_DAY_HOURS = 23
+ * END_OF_DAY_MINUTES = 59
+ * END_OF_DAY_SECONDS = 59
+ * Represents the end of a day (23:59:59)
+ * Used for the 'to' parameter to include all notifications until the end of the selected day
+ * Example: If user selects 2026-05-27, we query until 2026-05-27T23:59:59Z
+ * 
+ * Rationale: This ensures that a single-day query (from=2026-05-27, to=2026-05-27)
+ * returns all notifications for that entire day, not just those at midnight.
+ */
+const END_OF_DAY_HOURS = 23
+const END_OF_DAY_MINUTES = 59
+const END_OF_DAY_SECONDS = 59
+
+/**
+ * START_OF_DAY_MILLISECONDS = 0
+ * Represents the start of milliseconds in a day (000)
+ * Used for the 'from' parameter to ensure precision at the beginning of the day
+ */
+const START_OF_DAY_MILLISECONDS = 0
+
+/**
+ * END_OF_DAY_MILLISECONDS = 999
+ * Represents the end of milliseconds in a day (999)
+ * Used for the 'to' parameter to ensure we capture all milliseconds until the end of the day
+ */
+const END_OF_DAY_MILLISECONDS = 999
 
 /**
  * Notification request data structure
@@ -198,10 +245,20 @@ export async function queryNotifications(
         queryParams.append('status', filters.status)
       }
       if (filters.from) {
-        queryParams.append('from', filters.from)
+        // Convert date to ISO 8601 DATE_TIME format (e.g., 2026-05-27 -> 2026-05-27T00:00:00Z)
+        // Set to start of day to include all notifications from the beginning of the selected day
+        const fromDate = new Date(filters.from)
+        fromDate.setHours(START_OF_DAY_HOURS, START_OF_DAY_MINUTES, START_OF_DAY_SECONDS)
+        fromDate.setMilliseconds(START_OF_DAY_MILLISECONDS)
+        queryParams.append('from', fromDate.toISOString())
       }
       if (filters.to) {
-        queryParams.append('to', filters.to)
+        // Convert date to ISO 8601 DATE_TIME format and set to end of day
+        // This ensures all notifications until the end of the selected day are included
+        const toDate = new Date(filters.to)
+        toDate.setHours(END_OF_DAY_HOURS, END_OF_DAY_MINUTES, END_OF_DAY_SECONDS)
+        toDate.setMilliseconds(END_OF_DAY_MILLISECONDS)
+        queryParams.append('to', toDate.toISOString())
       }
     }
 
