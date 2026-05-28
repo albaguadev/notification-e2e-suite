@@ -91,8 +91,8 @@ The implementation is organized to enable early validation through incremental d
     - Return structured response with notifications array
     - _Requirements: 4.1, 4.3_
 
-- [ ] 5. Integrate API client with React components
-  - [ ] 5.1 Wire NotificationForm to API client
+- [x] 5. Integrate API client with React components
+  - [x] 5.1 Wire NotificationForm to API client
     - Add form submission handler that calls sendNotification
     - Implement loading state during API request
     - Display success message on successful submission
@@ -101,7 +101,7 @@ The implementation is organized to enable early validation through incremental d
     - Handle 200 responses with error content by checking response body
     - _Requirements: 2.2, 2.3, 6.3, 6.5, 7.4_
   
-  - [ ] 5.2 Wire NotificationQuery to API client
+  - [x] 5.2 Wire NotificationQuery to API client
     - Add search handler that calls queryNotifications with filters
     - Implement loading state during query
     - Display results in readable format
