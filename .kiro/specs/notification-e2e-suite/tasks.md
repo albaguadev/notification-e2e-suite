@@ -67,8 +67,8 @@ The implementation is organized to enable early validation through incremental d
   - Check that validation messages display correctly
   - Ask the user if questions arise
 
-- [ ] 4. Implement API client module
-  - [ ] 4.1 Create API client with sendNotification function
+- [x] 4. Implement API client module
+  - [x] 4.1 Create API client with sendNotification function
     - Implement POST request to http://localhost:8081/api/v1/notifications
     - Add proper headers (Content-Type: application/json)
     - Ensure no authentication headers are included
@@ -76,7 +76,7 @@ The implementation is organized to enable early validation through incremental d
     - Return structured response object with success, data, and error fields
     - _Requirements: 3.1, 3.2, 3.7_
   
-  - [ ] 4.2 Implement error handling logic
+  - [x] 4.2 Implement error handling logic
     - Create handleAPIError function to parse error JSON responses
     - Validate error response structure (status, timestamp, message, description)
     - Verify response_status field matches HTTP status code
@@ -84,7 +84,7 @@ The implementation is organized to enable early validation through incremental d
     - Handle network errors with user-friendly messages
     - _Requirements: 3.3, 3.4, 3.5, 3.6_
   
-  - [ ] 4.3 Create queryNotifications function
+  - [x] 4.3 Create queryNotifications function
     - Implement GET request to http://localhost:8081/api/v1/notifications
     - Add query parameter formatting for filters (type, status, from, to)
     - Handle response parsing and error handling
