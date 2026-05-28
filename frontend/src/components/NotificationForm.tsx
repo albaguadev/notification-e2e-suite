@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import StatusDisplay from './StatusDisplay'
+import { sendNotification } from '../api/client'
+import type { NotificationRequest, ErrorResponse } from '../api/client'
 import './NotificationForm.css'
 
 type NotificationType = 'EMAIL' | 'SMS' | 'WHATSAPP'
@@ -131,7 +133,8 @@ function NotificationForm() {
     setResponseMessage('')
 
     try {
-      const notificationData: any = {
+      // Build notification request (Requirement 2.2, 3.1, 6.3)
+      const notificationData: NotificationRequest = {
         type,
         recipient,
         message,
@@ -142,53 +145,41 @@ function NotificationForm() {
         notificationData.subject = subject
       }
 
-      const response = await fetch('http://localhost:8081/api/v1/notifications', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(notificationData),
-      })
+      // Call API client (Requirement 2.2, 3.1, 6.3)
+      const response = await sendNotification(notificationData)
 
-      const data = await response.json()
-
-      // Check if response contains error information (Requirement 3.4, 7.4)
-      if (response.ok) {
-        // Even with 200, check if response body contains error information
-        if (data.status && data.message && data.description) {
-          setStatus('error')
-          setResponseMessage(`${data.message}: ${data.description}`)
-        } else {
-          setStatus('success')
-          setResponseMessage('Notification sent successfully!')
-          // Clear form after successful submission
-          setRecipient('')
-          setMessage('')
-          setSubject('')
-          setErrors({})
-        }
+      if (response.success) {
+        // Success response (Requirement 2.3, 6.5)
+        setStatus('success')
+        setResponseMessage('Notification sent successfully!')
+        // Clear form after successful submission (Requirement 5.1)
+        setRecipient('')
+        setMessage('')
+        setSubject('')
+        setErrors({})
       } else {
-        // Handle error responses (400, 404, 500, 503)
-        if (data.status && data.message && data.description) {
-          // Verify response_status matches HTTP status (Requirement 3.5)
-          if (data.status === response.status) {
+        // Error response (Requirement 2.3, 6.5, 7.4)
+        if (response.error) {
+          if (typeof response.error === 'string') {
+            // Network error message
             setStatus('error')
-            setResponseMessage(`${data.message}: ${data.description}`)
+            setResponseMessage(response.error)
           } else {
-            // Fail silently if status doesn't match (Requirement 3.6)
-            setStatus('idle')
-            setResponseMessage('')
+            // Structured error response (Requirement 3.4, 3.5)
+            const errorData = response.error as ErrorResponse
+            setStatus('error')
+            setResponseMessage(`${errorData.message}: ${errorData.description}`)
           }
         } else {
-          // Malformed JSON or missing fields - fail silently (Requirement 3.6)
+          // Malformed error response - fail silently (Requirement 3.6)
           setStatus('idle')
           setResponseMessage('')
         }
       }
     } catch (error) {
-      // Network error - backend unavailable (Requirement 3.3)
+      // Unexpected error
       setStatus('error')
-      setResponseMessage('Unable to connect to notification service. Please try again later.')
+      setResponseMessage('An unexpected error occurred. Please try again.')
     }
   }
 

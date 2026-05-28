@@ -1,13 +1,8 @@
 import { useState } from 'react'
 import StatusDisplay from './StatusDisplay'
+import { queryNotifications } from '../api/client'
+import type { QueryFilters, ErrorResponse } from '../api/client'
 import './NotificationQuery.css'
-
-interface QueryFilters {
-  type?: string
-  status?: string
-  from?: string
-  to?: string
-}
 
 interface Notification {
   id: string
@@ -22,10 +17,10 @@ interface Notification {
 function NotificationQuery() {
   // Filter state
   const [filters, setFilters] = useState<QueryFilters>({
-    type: '',
-    status: '',
-    from: '',
-    to: '',
+    type: undefined,
+    status: undefined,
+    from: undefined,
+    to: undefined,
   })
 
   // Results state
@@ -33,7 +28,7 @@ function NotificationQuery() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleFilterChange = (field: keyof QueryFilters, value: string) => {
+  const handleFilterChange = (field: keyof QueryFilters, value: string | undefined) => {
     setFilters(prev => ({ ...prev, [field]: value }))
   }
 
@@ -44,41 +39,37 @@ function NotificationQuery() {
     setNotifications([])
 
     try {
-      // Build query parameters
-      const params = new URLSearchParams()
-      if (filters.type) params.append('type', filters.type)
-      if (filters.status) params.append('status', filters.status)
-      if (filters.from) params.append('from', filters.from)
-      if (filters.to) params.append('to', filters.to)
+      // Call API client with filters (Requirement 4.4, 4.5, 7.6)
+      const response = await queryNotifications(filters)
 
-      const queryString = params.toString()
-      const url = `http://localhost:8081/api/v1/notifications${queryString ? `?${queryString}` : ''}`
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        
-        // Check if response contains error information
-        if (data.status && data.message && data.description) {
-          setError(`${data.message}: ${data.description}`)
-        } else if (Array.isArray(data)) {
-          setNotifications(data)
-        } else {
+      if (response.success && response.data) {
+        // Success response (Requirement 4.4, 4.5)
+        if (response.data.length === 0) {
+          // Handle empty results (Requirement 4.5)
           setNotifications([])
+        } else {
+          // Display results in readable format (Requirement 4.4)
+          // Map NotificationData to Notification, ensuring id is always present
+          const mappedNotifications = response.data.map(notif => ({
+            ...notif,
+            id: notif.id || `${notif.timestamp}-${notif.recipient}`,
+          }))
+          setNotifications(mappedNotifications)
         }
       } else {
-        // Handle error responses
-        const data = await response.json()
-        if (data.status && data.message && data.description) {
-          if (data.status === response.status) {
-            setError(`${data.message}: ${data.description}`)
+        // Error response (Requirement 7.6)
+        if (response.error) {
+          if (typeof response.error === 'string') {
+            // Network error message
+            setError(response.error)
+          } else {
+            // Structured error response
+            const errorData = response.error as ErrorResponse
+            setError(`${errorData.message}: ${errorData.description}`)
           }
+        } else {
+          // Malformed error response - fail silently
+          setError('')
         }
       }
     } catch (err) {
@@ -90,10 +81,10 @@ function NotificationQuery() {
 
   const handleClearFilters = () => {
     setFilters({
-      type: '',
-      status: '',
-      from: '',
-      to: '',
+      type: undefined,
+      status: undefined,
+      from: undefined,
+      to: undefined,
     })
     setNotifications([])
     setError('')
@@ -127,8 +118,8 @@ function NotificationQuery() {
             <select
               id="filter-type"
               data-testid="filter-type"
-              value={filters.type}
-              onChange={(e) => handleFilterChange('type', e.target.value)}
+              value={filters.type || ''}
+              onChange={(e) => handleFilterChange('type', e.target.value || undefined)}
             >
               <option value="">All</option>
               <option value="EMAIL">EMAIL</option>
@@ -143,8 +134,8 @@ function NotificationQuery() {
               type="text"
               id="filter-status"
               data-testid="filter-status"
-              value={filters.status}
-              onChange={(e) => handleFilterChange('status', e.target.value)}
+              value={filters.status || ''}
+              onChange={(e) => handleFilterChange('status', e.target.value || undefined)}
               placeholder="e.g., SENT, FAILED"
             />
           </div>
@@ -157,8 +148,8 @@ function NotificationQuery() {
               type="date"
               id="filter-from"
               data-testid="filter-from"
-              value={filters.from}
-              onChange={(e) => handleFilterChange('from', e.target.value)}
+              value={filters.from || ''}
+              onChange={(e) => handleFilterChange('from', e.target.value || undefined)}
             />
           </div>
 
@@ -168,8 +159,8 @@ function NotificationQuery() {
               type="date"
               id="filter-to"
               data-testid="filter-to"
-              value={filters.to}
-              onChange={(e) => handleFilterChange('to', e.target.value)}
+              value={filters.to || ''}
+              onChange={(e) => handleFilterChange('to', e.target.value || undefined)}
             />
           </div>
         </div>
