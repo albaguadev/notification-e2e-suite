@@ -248,16 +248,14 @@ export async function queryNotifications(
         // Convert date to ISO 8601 DATE_TIME format (e.g., 2026-05-27 -> 2026-05-27T00:00:00Z)
         // Set to start of day to include all notifications from the beginning of the selected day
         const fromDate = new Date(filters.from)
-        fromDate.setHours(START_OF_DAY_HOURS, START_OF_DAY_MINUTES, START_OF_DAY_SECONDS)
-        fromDate.setMilliseconds(START_OF_DAY_MILLISECONDS)
+        fromDate.setHours(START_OF_DAY_HOURS, START_OF_DAY_MINUTES, START_OF_DAY_SECONDS, START_OF_DAY_MILLISECONDS)
         queryParams.append('from', fromDate.toISOString())
       }
       if (filters.to) {
         // Convert date to ISO 8601 DATE_TIME format and set to end of day
         // This ensures all notifications until the end of the selected day are included
         const toDate = new Date(filters.to)
-        toDate.setHours(END_OF_DAY_HOURS, END_OF_DAY_MINUTES, END_OF_DAY_SECONDS)
-        toDate.setMilliseconds(END_OF_DAY_MILLISECONDS)
+        toDate.setHours(END_OF_DAY_HOURS, END_OF_DAY_MINUTES, END_OF_DAY_SECONDS, END_OF_DAY_MILLISECONDS)
         queryParams.append('to', toDate.toISOString())
       }
     }
