@@ -53,8 +53,8 @@ function NotificationForm() {
   }
 
   const validateWhatsApp = (phone: string): boolean => {
-    // E.164 format with + prefix
-    const whatsappRegex = /^\+\d{1,15}$/
+    // E.164 format with + prefix: minimum 7 digits, maximum 15 digits
+    const whatsappRegex = /^\+\d{7,15}$/
     return whatsappRegex.test(phone)
   }
 
@@ -106,17 +106,17 @@ function NotificationForm() {
   // Real-time validation on input change
   const handleRecipientChange = (value: string) => {
     setRecipient(value)
-    if (value.trim()) {
-      const error = validateRecipient(value)
-      setErrors(prev => ({ ...prev, recipient: error }))
-    } else {
-      setErrors(prev => ({ ...prev, recipient: undefined }))
-    }
+    // Always validate, even if empty (to show required error)
+    const error = validateRecipient(value)
+    setErrors(prev => ({ ...prev, recipient: error }))
   }
 
   const handleMessageChange = (value: string) => {
     setMessage(value)
-    if (value.trim()) {
+    // Always validate, even if empty (to show required error)
+    if (!value.trim()) {
+      setErrors(prev => ({ ...prev, message: 'Message is required' }))
+    } else {
       setErrors(prev => ({ ...prev, message: undefined }))
     }
   }
@@ -216,7 +216,7 @@ function NotificationForm() {
             <option value="SMS">SMS</option>
             <option value="WHATSAPP">WHATSAPP</option>
           </select>
-          {errors.type && <span className="error-message">{errors.type}</span>}
+          {errors.type && <span className="error-message" data-testid="type-error">{errors.type}</span>}
         </div>
 
         <div className="form-group">
@@ -238,7 +238,7 @@ function NotificationForm() {
             }
             className={errors.recipient ? 'error' : ''}
           />
-          {errors.recipient && <span className="error-message">{errors.recipient}</span>}
+          {errors.recipient && <span className="error-message" data-testid="recipient-error">{errors.recipient}</span>}
         </div>
 
         {showSubject && (
@@ -255,7 +255,7 @@ function NotificationForm() {
               placeholder="Email subject"
               className={errors.subject ? 'error' : ''}
             />
-            {errors.subject && <span className="error-message">{errors.subject}</span>}
+            {errors.subject && <span className="error-message" data-testid="subject-error">{errors.subject}</span>}
           </div>
         )}
 
@@ -272,7 +272,7 @@ function NotificationForm() {
             rows={4}
             className={errors.message ? 'error' : ''}
           />
-          {errors.message && <span className="error-message">{errors.message}</span>}
+          {errors.message && <span className="error-message" data-testid="message-error">{errors.message}</span>}
         </div>
 
         <button
