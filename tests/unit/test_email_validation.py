@@ -20,6 +20,12 @@ from playwright.sync_api import Page
 class TestEmailValidation:
     """Test suite for email validation in NotificationForm."""
     
+    @pytest.fixture(autouse=True)
+    def setup_mocks(self, page: Page):
+        """Set up network mocks for API calls."""
+        # Mock the API endpoint to prevent actual network calls
+        page.route('**/api/v1/notifications', lambda route: route.abort())
+    
     def test_valid_email_accepted(self, page: Page, notification_page):
         """Test that valid email formats are accepted without error.
         
@@ -65,6 +71,9 @@ class TestEmailValidation:
         # Enter invalid email (missing @)
         recipient_input = page.locator('[data-testid="recipient"]')
         recipient_input.fill('userexample.com')
+        
+        # Wait a moment for validation to trigger
+        page.wait_for_timeout(100)
         
         # Verify error message is displayed
         error_message = page.locator('[data-testid="recipient-error"]')
