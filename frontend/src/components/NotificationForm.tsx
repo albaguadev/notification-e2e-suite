@@ -53,8 +53,8 @@ function NotificationForm() {
   }
 
   const validateWhatsApp = (phone: string): boolean => {
-    // E.164 format with + prefix
-    const whatsappRegex = /^\+\d{1,15}$/
+    // E.164 format with + prefix: minimum 7 digits, maximum 15 digits
+    const whatsappRegex = /^\+\d{7,15}$/
     return whatsappRegex.test(phone)
   }
 
@@ -113,7 +113,10 @@ function NotificationForm() {
 
   const handleMessageChange = (value: string) => {
     setMessage(value)
-    if (value.trim()) {
+    // Always validate, even if empty (to show required error)
+    if (!value.trim()) {
+      setErrors(prev => ({ ...prev, message: 'Message is required' }))
+    } else {
       setErrors(prev => ({ ...prev, message: undefined }))
     }
   }
