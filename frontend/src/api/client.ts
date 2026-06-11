@@ -127,14 +127,9 @@ async function handleAPIError(
   try {
     const errorData = await response.json()
 
-    // Validate error response structure - all fields must be present
-    if (
-      !errorData.status ||
-      !errorData.timestamp ||
-      !errorData.message ||
-      !errorData.description
-    ) {
-      // Missing fields - fail silently (Requirement 3.6)
+    // Validate error response structure - at least message is required
+    if (!errorData.status || !errorData.message) {
+      // Missing critical fields - fail silently (Requirement 3.6)
       return null
     }
 
@@ -144,7 +139,13 @@ async function handleAPIError(
       return null
     }
 
-    return errorData as ErrorResponse
+    // Return structured error, even if timestamp/description are missing
+    return {
+      status: errorData.status,
+      timestamp: errorData.timestamp || new Date().toISOString(),
+      message: errorData.message,
+      description: errorData.description || '',
+    } as ErrorResponse
   } catch (error) {
     // Malformed JSON - fail silently (Requirement 3.6)
     return null
