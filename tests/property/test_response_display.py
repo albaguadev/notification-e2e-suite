@@ -72,15 +72,17 @@ class TestResponseDisplay:
                 
                 route.fulfill(
                     status=200,
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(response_body)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -107,7 +109,6 @@ class TestResponseDisplay:
             f"Expected to contain one of: {success_indicators}"
     
     
-    @pytest.mark.xfail(reason="TODO: Investigate error display timing - error response not being shown from Playwright mock", strict=False)
     @given(
         notification_data=valid_notifications(),
         error_response=error_responses()
@@ -150,15 +151,17 @@ class TestResponseDisplay:
                 # Mock error response
                 route.fulfill(
                     status=error_response['status'],
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(error_response)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -238,15 +241,17 @@ class TestResponseDisplay:
                 }
                 route.fulfill(
                     status=status_code,
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(error_body)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -307,15 +312,17 @@ class TestResponseDisplay:
                 # Mock malformed error response
                 route.fulfill(
                     status=400,
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(malformed_error)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -376,15 +383,17 @@ class TestResponseDisplay:
                 }
                 route.fulfill(
                     status=200,
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(response_body)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -447,15 +456,17 @@ class TestResponseDisplay:
             if '/api/v1/notifications' in route.request.url:
                 route.fulfill(
                     status=error_response['status'],
-                    content_type='application/json',
+                    content_type='application/json; charset=utf-8',
                     body=json.dumps(error_response)
                 )
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
@@ -521,9 +532,11 @@ class TestResponseDisplay:
             else:
                 route.continue_()
         
+        # Set up route handler BEFORE navigation
+        page.route('**/api/v1/notifications', handle_route)
+        
         # Navigate and set up interception
         notification_page.navigate()
-        page.route('**/api/v1/notifications', handle_route)
         
         # Fill form
         notification_page.fill_form(
