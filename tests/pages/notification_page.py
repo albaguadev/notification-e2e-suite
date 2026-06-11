@@ -98,8 +98,8 @@ class NotificationPage:
         try:
             # Wait for status message to appear (with timeout)
             self.status_message.wait_for(state='visible', timeout=5000)
-            # Give the DOM a moment to fully update with content
-            self.page.wait_for_timeout(500)
+            # Give the DOM a brief moment to fully update with content
+            self.page.wait_for_timeout(100)
             return self.status_message.text_content() or ''
         except Exception:
             # Return empty string if status message is not visible
