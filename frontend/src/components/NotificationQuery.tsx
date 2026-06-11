@@ -32,7 +32,7 @@ function NotificationQuery() {
     setFilters(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError('')

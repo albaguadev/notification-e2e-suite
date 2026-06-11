@@ -183,26 +183,26 @@ The implementation is organized to enable early validation through incremental d
     - Test that no-results message is hidden initially
     - _Requirements: 6.1_
 
-- [ ] 11. Implement unit tests for validation
-  - [ ] 11.1 Write tests for email validation
+- [x] 11. Implement unit tests for validation
+  - [x] 11.1 Write tests for email validation
     - Test valid email formats are accepted
     - Test invalid email formats show error messages
     - Verify error messages display in real-time
     - _Requirements: 6.2, 6.4_
   
-  - [ ]* 11.2 Write tests for SMS validation
+  - [x]* 11.2 Write tests for SMS validation
     - Test valid ES region phone numbers are accepted (+34612345678)
     - Test invalid phone numbers show error messages
     - Verify format requirements are enforced
     - _Requirements: 6.2, 6.4_
   
-  - [ ]* 11.3 Write tests for WhatsApp validation
+  - [x]* 11.3 Write tests for WhatsApp validation
     - Test valid E.164 format numbers are accepted
     - Test numbers without + prefix show error messages
     - Verify international format is enforced
     - _Requirements: 6.2, 6.4_
   
-  - [ ]* 11.4 Write test for required field validation
+  - [x]* 11.4 Write test for required field validation
     - Test that empty required fields prevent submission
     - Verify error messages display for missing fields
     - Test that form submission is blocked when validation fails
