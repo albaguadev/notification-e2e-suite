@@ -167,8 +167,10 @@ async function handleAPIError(
 export async function sendNotification(
   notificationData: NotificationRequest
 ): Promise<APIResponse<NotificationData>> {
+  let response: Response
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/notifications`, {
+    response = await fetch(`${API_BASE_URL}/notifications`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -176,44 +178,60 @@ export async function sendNotification(
       },
       body: JSON.stringify(notificationData),
     })
-
-    const data = await response.json()
-
-    if (response.ok) {
-      // Check if 200 response contains error information (Requirement 7.4)
-      if (data.status && data.message && data.description) {
-        return {
-          success: false,
-          error: data as ErrorResponse,
-        }
-      }
-
-      return {
-        success: true,
-        data: data as NotificationData,
-      }
-    } else {
-      // Handle error responses (400, 404, 500, 503)
-      const errorResponse = await handleAPIError(response, response.status)
-
-      if (errorResponse) {
-        return {
-          success: false,
-          error: errorResponse,
-        }
-      } else {
-        // Malformed error response - fail silently (Requirement 3.6)
-        return {
-          success: false,
-          error: undefined,
-        }
-      }
-    }
   } catch (error) {
     // Network error - backend unavailable (Requirement 3.3)
     return {
       success: false,
       error: 'Unable to connect to notification service. Please try again later.',
+    }
+  }
+
+  let data: unknown
+  try {
+    data = await response.json()
+  } catch (error) {
+    // Malformed JSON - fail silently (Requirement 3.6)
+    if (!response.ok) {
+      return {
+        success: false,
+        error: undefined,
+      }
+    }
+    // For successful responses, treat parse error as network error
+    return {
+      success: false,
+      error: 'Unable to connect to notification service. Please try again later.',
+    }
+  }
+
+  if (response.ok) {
+    // Check if 200 response contains error information (Requirement 7.4)
+    if (data && typeof data === 'object' && 'status' in data && 'message' in data && 'description' in data) {
+      return {
+        success: false,
+        error: data as ErrorResponse,
+      }
+    }
+
+    return {
+      success: true,
+      data: data as NotificationData,
+    }
+  } else {
+    // Handle error responses (400, 404, 500, 503)
+    const errorResponse = await handleAPIError(response, response.status)
+
+    if (errorResponse) {
+      return {
+        success: false,
+        error: errorResponse,
+      }
+    } else {
+      // Malformed error response - fail silently (Requirement 3.6)
+      return {
+        success: false,
+        error: undefined,
+      }
     }
   }
 }
@@ -233,6 +251,8 @@ export async function sendNotification(
 export async function queryNotifications(
   filters?: QueryFilters
 ): Promise<APIResponse<NotificationData[]>> {
+  let response: Response
+  
   try {
     // Build query parameters
     const queryParams = new URLSearchParams()
@@ -265,52 +285,68 @@ export async function queryNotifications(
       ? `${API_BASE_URL}/notifications?${queryString}`
       : `${API_BASE_URL}/notifications`
 
-    const response = await fetch(url, {
+    response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         // No authentication headers (Requirement 3.7)
       },
     })
-
-    const data = await response.json()
-
-    if (response.ok) {
-      // Check if 200 response contains error information
-      if (data.status && data.message && data.description) {
-        return {
-          success: false,
-          error: data as ErrorResponse,
-        }
-      }
-
-      // Assume data is an array of notifications
-      return {
-        success: true,
-        data: Array.isArray(data) ? data : [],
-      }
-    } else {
-      // Handle error responses
-      const errorResponse = await handleAPIError(response, response.status)
-
-      if (errorResponse) {
-        return {
-          success: false,
-          error: errorResponse,
-        }
-      } else {
-        // Malformed error response - fail silently
-        return {
-          success: false,
-          error: undefined,
-        }
-      }
-    }
   } catch (error) {
     // Network error - backend unavailable
     return {
       success: false,
       error: 'Unable to connect to notification service. Please try again later.',
+    }
+  }
+
+  let data: unknown
+  try {
+    data = await response.json()
+  } catch (error) {
+    // Malformed JSON - fail silently (Requirement 3.6)
+    if (!response.ok) {
+      return {
+        success: false,
+        error: undefined,
+      }
+    }
+    // For successful responses, treat parse error as network error
+    return {
+      success: false,
+      error: 'Unable to connect to notification service. Please try again later.',
+    }
+  }
+
+  if (response.ok) {
+    // Check if 200 response contains error information
+    if (data && typeof data === 'object' && 'status' in data && 'message' in data && 'description' in data) {
+      return {
+        success: false,
+        error: data as ErrorResponse,
+      }
+    }
+
+    // Assume data is an array of notifications
+    return {
+      success: true,
+      data: Array.isArray(data) ? data : [],
+    }
+  } else {
+    // Handle error responses
+    const errorResponse = await handleAPIError(response, response.status)
+
+    if (errorResponse) {
+      return {
+        success: false,
+        error: errorResponse,
+      }
+    } else {
+      // Malformed error response - fail silently
+      return {
+        success: false,
+        error: undefined,
+      }
     }
   }
 }
