@@ -160,19 +160,25 @@ function NotificationForm() {
       } else {
         // Error response (Requirement 2.3, 6.5, 7.4)
         if (response.error) {
+          // Check if error is an object (structured error) or string (network error)
           if (typeof response.error === 'string') {
             // Network error message
             setStatus('error')
             setResponseMessage(response.error)
-          } else {
-            // Structured error response (Requirement 3.4, 3.5)
+          } else if (typeof response.error === 'object' && 'message' in response.error && 'description' in response.error) {
+            // Structured error response with message and description (Requirement 3.4, 3.5)
             const errorData = response.error as ErrorResponse
             setStatus('error')
-            setResponseMessage(`${errorData.message}: ${errorData.description}`)
+            // Display both message and description from error response
+            const errorMessage = `${errorData.message}. ${errorData.description}`.trim()
+            setResponseMessage(errorMessage || 'An error occurred. Please try again.')
+          } else {
+            // Malformed error response - show generic error (Requirement 3.6)
+            setStatus('error')
+            setResponseMessage('An error occurred. Please try again.')
           }
         } else {
-          // Malformed error response - show generic error instead of failing silently
-          // This ensures user gets feedback even for malformed responses (Requirement 3.6)
+          // No error provided - malformed response
           setStatus('error')
           setResponseMessage('An error occurred. Please try again.')
         }
