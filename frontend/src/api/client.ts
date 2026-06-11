@@ -126,28 +126,36 @@ async function handleAPIError(
 ): Promise<ErrorResponse | null> {
   try {
     const errorData = await response.json()
+    
+    console.log('[handleAPIError] Error data received:', { errorData, httpStatus })
 
     // Validate error response structure - at least message is required
     if (!errorData.status || !errorData.message) {
       // Missing critical fields - fail silently (Requirement 3.6)
+      console.log('[handleAPIError] Missing status or message - failing silently')
       return null
     }
 
     // Verify response_status field matches HTTP status code (Requirement 3.5)
     if (errorData.status !== httpStatus) {
       // Status mismatch - fail silently (Requirement 3.6)
+      console.log('[handleAPIError] Status mismatch - failing silently', { expected: httpStatus, got: errorData.status })
       return null
     }
 
     // Return structured error, even if timestamp/description are missing
-    return {
+    const result = {
       status: errorData.status,
       timestamp: errorData.timestamp || new Date().toISOString(),
       message: errorData.message,
       description: errorData.description || '',
     } as ErrorResponse
+    
+    console.log('[handleAPIError] Returning error:', result)
+    return result
   } catch (error) {
     // Malformed JSON - fail silently (Requirement 3.6)
+    console.log('[handleAPIError] Malformed JSON - failing silently', error)
     return null
   }
 }
