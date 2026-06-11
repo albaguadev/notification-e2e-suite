@@ -171,9 +171,10 @@ function NotificationForm() {
             setResponseMessage(`${errorData.message}: ${errorData.description}`)
           }
         } else {
-          // Malformed error response - fail silently (Requirement 3.6)
-          setStatus('idle')
-          setResponseMessage('')
+          // Malformed error response - show generic error instead of failing silently
+          // This ensures user gets feedback even for malformed responses (Requirement 3.6)
+          setStatus('error')
+          setResponseMessage('An error occurred. Please try again.')
         }
       }
     } catch (error) {
