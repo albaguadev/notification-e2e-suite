@@ -165,12 +165,14 @@ function NotificationForm() {
             // Network error message
             setStatus('error')
             setResponseMessage(response.error)
-          } else if (typeof response.error === 'object' && 'message' in response.error && 'description' in response.error) {
-            // Structured error response with message and description (Requirement 3.4, 3.5)
+          } else if (typeof response.error === 'object' && response.error && 'message' in response.error) {
+            // Structured error response with at least message field (Requirement 3.4, 3.5)
             const errorData = response.error as ErrorResponse
             setStatus('error')
             // Display both message and description from error response
-            const errorMessage = `${errorData.message}. ${errorData.description}`.trim()
+            const errorMessage = errorData.description
+              ? `${errorData.message}. ${errorData.description}`.trim()
+              : errorData.message
             setResponseMessage(errorMessage || 'An error occurred. Please try again.')
           } else {
             // Malformed error response - show generic error (Requirement 3.6)
