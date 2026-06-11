@@ -107,6 +107,7 @@ class TestResponseDisplay:
             f"Expected to contain one of: {success_indicators}"
     
     
+    @pytest.mark.xfail(reason="TODO: Investigate error display timing - error response not being shown from Playwright mock", strict=False)
     @given(
         notification_data=valid_notifications(),
         error_response=error_responses()
@@ -118,7 +119,6 @@ class TestResponseDisplay:
         deadline=None
     )
     @pytest.mark.property_test
-    @pytest.mark.xfail(reason="Edge case: error message display timing issue with specific error response combinations", strict=False)
     def test_error_response_display(self, page: Page, notification_page, notification_data, error_response):
         """Property test: UI displays error details on error response.
         
