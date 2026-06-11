@@ -10,11 +10,6 @@ function StatusDisplay({ type, message, onDismiss }: StatusDisplayProps) {
   return (
     <div className={`status-display status-display--${type}`} data-testid="status-message">
       <div className="status-display__content">
-        <span className="status-display__icon">
-          {type === 'success' && '✓'}
-          {type === 'error' && '✕'}
-          {type === 'info' && 'ℹ'}
-        </span>
         <span className="status-display__message">{message}</span>
       </div>
       {onDismiss && (
