@@ -430,20 +430,28 @@ def error_responses(draw) -> Dict[str, Any]:
     Requirement: 9.4 - Implement strategy for error responses with various status codes
     """
     status = draw(error_status_codes())
-    message = draw(
-        st.text(
-            alphabet='abcdefghijklmnopqrstuvwxyz ',
-            min_size=5,
-            max_size=50
-        )
-    )
-    description = draw(
-        st.text(
-            alphabet='abcdefghijklmnopqrstuvwxyz0123456789 .,',
-            min_size=10,
-            max_size=100
-        )
-    )
+    
+    # Generate more realistic error messages with common patterns
+    error_messages = [
+        'invalid request',
+        'bad request',
+        'validation error',
+        'processing failed',
+        'service error',
+        'request failed',
+    ]
+    message = draw(st.sampled_from(error_messages))
+    
+    # Generate realistic error descriptions
+    descriptions = [
+        'the provided data is invalid',
+        'please check your input and try again',
+        'an unexpected error occurred',
+        'the service is temporarily unavailable',
+        'request validation failed',
+        'operation could not be completed',
+    ]
+    description = draw(st.sampled_from(descriptions))
     
     return {
         'status': status,
