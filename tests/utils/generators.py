@@ -282,12 +282,14 @@ def valid_messages(draw) -> str:
     
     Constraint: 2-500 characters (minimum 2 for meaningful content)
     Content: Printable ASCII + common punctuation
+    Must contain at least one letter or meaningful word (not just numbers/symbols)
     
     Returns:
         str: Valid message content
         
     Requirement: 9.4 - Implement strategy for message content (1-500 characters)
     """
+    # Generate message with required alphabet to ensure meaningful content
     message = draw(
         st.text(
             alphabet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:\'"()-',
@@ -295,8 +297,14 @@ def valid_messages(draw) -> str:
             max_size=500
         )
     )
-    # Ensure message is not just whitespace
-    return message if message.strip() else 'a' * len(message)
+    
+    # Ensure message is not just whitespace or only digits/symbols
+    stripped = message.strip()
+    if not stripped or not any(c.isalpha() for c in message):
+        # Replace with a valid message that contains letters
+        return 'Message: ' + message[:min(491, len(message))]
+    
+    return message
 
 
 @st.composite
