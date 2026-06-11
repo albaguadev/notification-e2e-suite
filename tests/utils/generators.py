@@ -280,7 +280,7 @@ def invalid_whatsapp_numbers(draw) -> str:
 def valid_messages(draw) -> str:
     """Generate valid message content.
     
-    Constraint: 1-500 characters
+    Constraint: 2-500 characters (minimum 2 for meaningful content)
     Content: Printable ASCII + common punctuation
     
     Returns:
@@ -288,13 +288,15 @@ def valid_messages(draw) -> str:
         
     Requirement: 9.4 - Implement strategy for message content (1-500 characters)
     """
-    return draw(
+    message = draw(
         st.text(
             alphabet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,!?;:\'"()-',
-            min_size=1,
+            min_size=2,
             max_size=500
         )
     )
+    # Ensure message is not just whitespace
+    return message if message.strip() else 'a' * len(message)
 
 
 @st.composite

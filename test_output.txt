@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-9.0.3, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default-with-quiet-verbosity' -> verbosity=Verbosity.quiet
+metadata: {'Python': '3.13.1', 'Platform': 'Windows-11-10.0.26200-SP0', 'Packages': {'pytest': '9.0.3', 'pluggy': '1.6.0'}, 'Plugins': {'hypothesis': '6.153.2', 'base-url': '2.1.0', 'html': '4.2.0', 'metadata': '3.1.1', 'playwright': '0.8.0'}, 'Base URL': ''}
+rootdir: D:\Projects\OtherProjects\notification-e2e-suite
+configfile: pytest.ini (WARNING: ignoring pytest config in pyproject.toml!)
+plugins: hypothesis-6.153.2, base-url-2.1.0, html-4.2.0, metadata-3.1.1, playwright-0.8.0
+collecting ... collected 1 item
+
+tests/property/test_required_field_validation.py::TestRequiredFieldValidation::test_missing_recipient_field_prevents_submission[chromium] PASSED [100%]
+
+- Generated html report: file:///D:/Projects/OtherProjects/notification-e2e-suite/reports/test_report.html -
+======================== 1 passed in 88.32s (0:01:28) =========================
