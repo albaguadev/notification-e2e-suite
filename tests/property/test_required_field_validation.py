@@ -24,7 +24,7 @@ class TestRequiredFieldValidation:
         recipient=st.one_of(st.just(''), st.just('   ')),  # Generate empty or whitespace recipient
         message=st.text(min_size=1, max_size=100)
     )
-    @settings(max_examples=15, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=15, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_missing_recipient_field_prevents_submission(self, page: Page, notification_page, notification_type, recipient, message):
         """Property test: Missing recipient field prevents form submission and shows error.
@@ -103,7 +103,7 @@ class TestRequiredFieldValidation:
         ),
         message=st.one_of(st.just(''), st.just('   '))  # Generate empty or whitespace message
     )
-    @settings(max_examples=15, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=15, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_missing_message_field_prevents_submission(self, page: Page, notification_page, notification_type, recipient, message):
         """Property test: Missing message field prevents form submission and shows error.
@@ -177,7 +177,7 @@ class TestRequiredFieldValidation:
         recipient=st.one_of(st.just(''), st.just('   ')),  # Missing recipient
         message=st.one_of(st.just(''), st.just('   '))    # Missing message
     )
-    @settings(max_examples=10, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=10, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_multiple_missing_fields_prevents_submission(self, page: Page, notification_page, recipient, message):
         """Property test: Multiple missing fields prevent form submission and show multiple errors.

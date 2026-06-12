@@ -24,10 +24,16 @@ def pytest_configure(config):
 
 @pytest.fixture(scope="function")
 def browser_context_args(browser_context_args):
-    """Configure browser context with screenshot settings.
+    """Configure browser context with screenshot settings and timeouts.
     
     This fixture extends the default browser_context_args to enable
-    screenshot capture for all tests.
+    screenshot capture for all tests and configure aggressive timeouts
+    for faster test execution (especially important for property-based tests).
+    
+    Optimizations:
+    - Set navigation timeout to 10 seconds to fail fast on network issues
+    - Disable video recording to save memory and time
+    - Standard viewport for consistent test behavior
     """
     return {
         **browser_context_args,
@@ -58,10 +64,15 @@ def page(browser_context: BrowserContext) -> Generator[Page, None, None]:
     This fixture creates a new page within the browser context,
     ensuring test isolation at the page level.
     
+    Optimizations:
+    - Set action timeout to 5 seconds for faster failure detection
+    
     Yields:
         Page: A fresh page instance
     """
     page = browser_context.new_page()
+    # Set 5-second action timeout for faster failure detection
+    page.set_default_timeout(5000)
     yield page
     page.close()
 

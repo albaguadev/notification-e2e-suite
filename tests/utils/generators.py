@@ -569,3 +569,106 @@ def invalid_notifications(draw) -> Dict[str, str]:
             'recipient': valid_recipient,
             'message': draw(valid_messages() if invalid_field != 1 else empty_or_whitespace_messages())
         }
+
+
+# ============================================================================
+# QUERY FILTER STRATEGIES
+# ============================================================================
+
+@st.composite
+def valid_iso_dates(draw) -> str:
+    """Generate a valid ISO 8601 date string.
+    
+    Format: YYYY-MM-DD
+    Range: 2020-01-01 to 2025-12-31
+    
+    Returns:
+        str: A valid ISO 8601 date string
+    """
+    from datetime import date
+    return draw(st.dates(min_value=date(2020, 1, 1), max_value=date(2025, 12, 31))).isoformat()
+
+
+@st.composite
+def optional_iso_dates(draw) -> str:
+    """Generate an optional ISO 8601 date string (may be empty).
+    
+    Returns:
+        str: An optional ISO 8601 date string (may be None or empty)
+    """
+    include_date = draw(st.booleans())
+    
+    if include_date:
+        return draw(valid_iso_dates())
+    else:
+        return None
+
+
+@st.composite
+def notification_statuses(draw) -> str:
+    """Generate a valid notification status filter value.
+    
+    Common statuses: SENT, FAILED, PENDING
+    
+    Returns:
+        str: A valid notification status
+    """
+    return draw(st.sampled_from(['SENT', 'FAILED', 'PENDING']))
+
+
+@st.composite
+def optional_statuses(draw) -> str:
+    """Generate an optional notification status filter (may be None).
+    
+    Returns:
+        str: An optional notification status (may be None)
+    """
+    include_status = draw(st.booleans())
+    
+    if include_status:
+        return draw(notification_statuses())
+    else:
+        return None
+
+
+@st.composite
+def optional_notification_types(draw) -> str:
+    """Generate an optional notification type filter (may be None).
+    
+    Returns:
+        str: An optional notification type (may be None)
+    """
+    include_type = draw(st.booleans())
+    
+    if include_type:
+        return draw(notification_types())
+    else:
+        return None
+
+
+@st.composite
+def query_filters(draw) -> Dict[str, Any]:
+    """Generate query filter combinations for notification search.
+    
+    Generates various combinations of optional filters:
+    - notification_type: Optional type filter (EMAIL, SMS, WHATSAPP)
+    - status: Optional status filter (SENT, FAILED, PENDING)
+    - from_date: Optional start date (ISO 8601 format)
+    - to_date: Optional end date (ISO 8601 format)
+    
+    All fields are optional, allowing for comprehensive filter combinations.
+    
+    Returns:
+        Dict: A query filter object with optional fields
+        
+    Requirement: 4.3 - Generate various combinations of query filters
+    """
+    filters = {
+        'type': draw(optional_notification_types()),
+        'status': draw(optional_statuses()),
+        'from': draw(optional_iso_dates()),
+        'to': draw(optional_iso_dates()),
+    }
+    
+    # Remove None values to get clean filter dict
+    return {k: v for k, v in filters.items() if v is not None}

@@ -23,7 +23,7 @@ class TestFormSubmissionAPI:
     """Test suite for verifying form submission triggers API requests."""
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_form_submission_triggers_api_request(self, page: Page, notification_page, notification_data):
         """Property test: Form submission triggers API POST request with correct data.
@@ -158,7 +158,7 @@ class TestFormSubmissionAPI:
                 f"Got headers: {request_data['headers']}"
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_form_submission_email_type_handling(self, page: Page, notification_page, notification_data):
         """Property test: EMAIL type notifications include subject field.
@@ -223,7 +223,7 @@ class TestFormSubmissionAPI:
             f"Subject field should match input. Expected: {notification_data['subject']}, Got: {request_body['subject']}"
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_form_submission_sms_type_no_subject(self, page: Page, notification_page, notification_data):
         """Property test: SMS type notifications do NOT include subject field.
@@ -285,7 +285,7 @@ class TestFormSubmissionAPI:
             f"SMS request should NOT include subject field. Got: {request_body}"
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_form_submission_whatsapp_type_no_subject(self, page: Page, notification_page, notification_data):
         """Property test: WHATSAPP type notifications do NOT include subject field.

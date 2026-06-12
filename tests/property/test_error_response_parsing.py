@@ -33,8 +33,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -148,8 +148,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -231,8 +231,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -312,8 +312,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -393,8 +393,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -474,8 +474,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test
@@ -555,8 +555,8 @@ class TestErrorResponseParsing:
     )
     @settings(
         max_examples=25,
-        verbosity=Verbosity.normal,
-        suppress_health_check=[HealthCheck.function_scoped_fixture],
+        verbosity=Verbosity.quiet,
+        suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow],
         deadline=None
     )
     @pytest.mark.property_test

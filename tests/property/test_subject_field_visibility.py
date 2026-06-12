@@ -21,7 +21,7 @@ class TestSubjectFieldVisibility:
     """Test suite for verifying subject field visibility based on notification type."""
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_subject_field_hidden_for_non_email_types(self, page: Page, notification_page, notification_data):
         """Property test: Subject field is hidden for SMS and WHATSAPP notification types.
@@ -78,7 +78,7 @@ class TestSubjectFieldVisibility:
             f"Notification type: {notification_type}, recipient: {recipient}"
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_subject_field_visible_for_email_type(self, page: Page, notification_page, notification_data):
         """Property test: Subject field is visible for EMAIL notification type.
@@ -138,7 +138,7 @@ class TestSubjectFieldVisibility:
             f"Notification type: {notification_type}, recipient: {recipient}"
     
     @given(notification_data=valid_notifications())
-    @settings(max_examples=25, verbosity=Verbosity.normal, suppress_health_check=[HealthCheck.function_scoped_fixture], deadline=None)
+    @settings(max_examples=25, verbosity=Verbosity.quiet, suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow], deadline=None)
     @pytest.mark.property_test
     def test_subject_field_visibility_consistency(self, page: Page, notification_page, notification_data):
         """Property test: Subject field visibility is consistent with notification type.

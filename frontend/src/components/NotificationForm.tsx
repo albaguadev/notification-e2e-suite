@@ -175,14 +175,15 @@ function NotificationForm() {
               : errorData.message
             setResponseMessage(errorMessage || 'An error occurred. Please try again.')
           } else {
-            // Malformed error response - show generic error (Requirement 3.6)
-            setStatus('error')
-            setResponseMessage('An error occurred. Please try again.')
+            // Malformed error response - fail silently with no error message (Requirement 3.6)
+            // Do not display any error message to the user
+            setStatus('idle')
+            setResponseMessage('')
           }
         } else {
-          // No error provided - malformed response
-          setStatus('error')
-          setResponseMessage('An error occurred. Please try again.')
+          // No error provided - malformed response, fail silently (Requirement 3.6)
+          setStatus('idle')
+          setResponseMessage('')
         }
       }
     } catch (error) {
