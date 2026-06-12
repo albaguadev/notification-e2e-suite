@@ -8,6 +8,7 @@ dependencies = [
     "pytest>=7.4.0",
     "pytest-playwright>=0.4.0",
     "pytest-html>=4.1.0",
+    "pytest-xdist>=3.0.0",
     "hypothesis>=6.92.0",
 ]
 
@@ -78,3 +79,57 @@ target-version = ["py38", "py39", "py310", "py311"]
 [tool.flake8]
 max-line-length = 100
 extend-ignore = ["E203", "W503"]
+
+
+# CI/CD Configuration Documentation
+# 
+# This project includes support for multiple CI/CD platforms:
+# - GitHub Actions (.github/workflows/e2e-tests.yml)
+# - GitLab CI (.gitlab-ci.yml)
+# - Jenkins (Jenkinsfile)
+#
+# Exit Code Handling:
+# - 0: All tests passed (success)
+# - 1: One or more tests failed (failure)
+# - 2: Test execution was interrupted/error (error)
+# - 3: Test collection failed
+# - 5: No tests collected
+#
+# Headless Browser Mode:
+# - Enabled by default in CI environments
+# - Set PLAYWRIGHT_HEADLESS=1 environment variable
+# - Disable with --headed flag for local development
+# - Supports: Chromium (default), Firefox, WebKit
+#
+# Parallel Test Execution:
+# - Enable with: pytest -n auto
+# - Specify workers: pytest -n 4 (or -n 8)
+# - Distribution: pytest -n auto --dist loadscope
+# - Requires: pip install pytest-xdist>=3.0.0
+#
+# Test Artifact Generation:
+# - HTML Reports: tests/reports/test_report_<browser>.html
+# - Screenshots: tests/reports/screenshots/*.png
+# - All artifacts are self-contained in single HTML files
+# - Screenshot capture automatic for all tests (pass/fail)
+#
+# Configuration Files:
+# - GitHub Actions: .github/workflows/e2e-tests.yml
+# - GitLab CI: .gitlab-ci.yml
+# - Jenkins: Jenkinsfile
+#
+# Usage Examples:
+#   # Run tests in headless mode (default)
+#   pytest
+#
+#   # Run tests in parallel (4 workers)
+#   pytest -n 4
+#
+#   # Run tests with specific browser
+#   pytest --browser firefox
+#
+#   # Run property-based tests with parallel execution
+#   pytest tests/property/ -n auto
+#
+#   # Generate HTML report with screenshots
+#   pytest --html=report.html --self-contained-html
