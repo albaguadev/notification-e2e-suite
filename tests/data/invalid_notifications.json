@@ -1,0 +1,192 @@
+{
+  "invalid_emails": [
+    {
+      "type": "EMAIL",
+      "recipient": "notanemail",
+      "message": "This email format is invalid (no @ symbol).",
+      "subject": "Invalid Email Format",
+      "error": "Invalid email format - missing @ symbol"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "user@",
+      "message": "Email missing domain.",
+      "subject": "Missing Domain",
+      "error": "Invalid email format - missing domain"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "@example.com",
+      "message": "Email missing local part.",
+      "subject": "Missing Local Part",
+      "error": "Invalid email format - missing local part"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "user space@example.com",
+      "message": "Email contains space.",
+      "subject": "Space in Email",
+      "error": "Invalid email format - contains space"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "user@example",
+      "message": "Email missing TLD.",
+      "subject": "Missing TLD",
+      "error": "Invalid email format - missing top-level domain"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "user@@example.com",
+      "message": "Email contains multiple @ symbols.",
+      "subject": "Multiple @ Symbols",
+      "error": "Invalid email format - multiple @ symbols"
+    }
+  ],
+  "invalid_sms_numbers": [
+    {
+      "type": "SMS",
+      "recipient": "+3461234567",
+      "message": "Invalid SMS - Spanish number too short (only 10 digits).",
+      "error": "Invalid phone format - wrong number of digits"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+346123456789",
+      "message": "Invalid SMS - Spanish number too long (11 digits).",
+      "error": "Invalid phone format - wrong number of digits"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34512345678",
+      "message": "Invalid SMS - Spanish number starting with 5 (must start with 6 or 7).",
+      "error": "Invalid phone format - must start with 6 or 7"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34812345678",
+      "message": "Invalid SMS - Spanish number starting with 8 (must start with 6 or 7).",
+      "error": "Invalid phone format - must start with 6 or 7"
+    },
+    {
+      "type": "SMS",
+      "recipient": "34612345678",
+      "message": "Invalid SMS - missing + prefix.",
+      "error": "Invalid phone format - missing + prefix"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+1234567890",
+      "message": "Invalid SMS - US number instead of Spanish.",
+      "error": "Invalid phone format - wrong country code"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34 612 345 678",
+      "message": "Invalid SMS - contains spaces.",
+      "error": "Invalid phone format - contains spaces"
+    }
+  ],
+  "invalid_whatsapp_numbers": [
+    {
+      "type": "WHATSAPP",
+      "recipient": "34612345678",
+      "message": "Invalid WhatsApp - missing + prefix.",
+      "error": "Invalid E.164 format - missing + prefix"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+",
+      "message": "Invalid WhatsApp - only prefix.",
+      "error": "Invalid E.164 format - no digits"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "whatsapp:+34612345678",
+      "message": "Invalid WhatsApp - contains prefix.",
+      "error": "Invalid E.164 format - contains prefix"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+34 612 345 678",
+      "message": "Invalid WhatsApp - contains spaces.",
+      "error": "Invalid E.164 format - contains spaces"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+34612345678ext123",
+      "message": "Invalid WhatsApp - contains extension.",
+      "error": "Invalid E.164 format - contains non-digits after country code"
+    }
+  ],
+  "missing_required_fields": [
+    {
+      "recipient": "test@example.com",
+      "message": "Missing notification type.",
+      "error": "Required field missing - type"
+    },
+    {
+      "type": "EMAIL",
+      "message": "Missing recipient field.",
+      "error": "Required field missing - recipient"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34612345678",
+      "error": "Required field missing - message"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "",
+      "message": "Empty recipient field.",
+      "error": "Required field empty - recipient cannot be empty"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+34612345678",
+      "message": "",
+      "error": "Required field empty - message cannot be empty"
+    }
+  ],
+  "invalid_message_content": [
+    {
+      "type": "EMAIL",
+      "recipient": "test@example.com",
+      "message": "",
+      "subject": "Empty Message",
+      "error": "Invalid message - cannot be empty"
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34612345678",
+      "message": "   ",
+      "error": "Invalid message - only whitespace"
+    }
+  ],
+  "invalid_notification_types": [
+    {
+      "type": "TELEGRAM",
+      "recipient": "+34612345678",
+      "message": "Invalid notification type - TELEGRAM not supported.",
+      "error": "Invalid notification type - must be EMAIL, SMS, or WHATSAPP"
+    },
+    {
+      "type": "PUSH",
+      "recipient": "user@example.com",
+      "message": "Invalid notification type - PUSH not supported.",
+      "error": "Invalid notification type - must be EMAIL, SMS, or WHATSAPP"
+    },
+    {
+      "type": "",
+      "recipient": "test@example.com",
+      "message": "Empty notification type.",
+      "error": "Invalid notification type - empty string"
+    },
+    {
+      "type": "email",
+      "recipient": "test@example.com",
+      "message": "Lowercase email type.",
+      "error": "Invalid notification type - case sensitive, must be uppercase"
+    }
+  ]
+}
