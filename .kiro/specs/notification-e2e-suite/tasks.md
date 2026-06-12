@@ -377,29 +377,29 @@ The implementation is organized to enable early validation through incremental d
   - Ensure all tests pass consistently
   - Ask the user if questions arise
 
-- [ ] 16. Implement E2E flow tests
-  - [ ] 16.1 Write E2E test for EMAIL notification flow
+- [x] 16. Implement E2E flow tests
+  - [x] 16.1 Write E2E test for EMAIL notification flow
     - Navigate to application
     - Fill form with valid EMAIL data including subject
     - Submit form
     - Verify UI displays success message or error message based on backend response
     - _Requirements: 7.1_
   
-  - [ ]* 16.2 Write E2E test for SMS notification flow
+  - [x] 16.2 Write E2E test for SMS notification flow
     - Navigate to application
     - Fill form with valid SMS data (ES region phone number)
     - Submit form
     - Verify UI displays success message or error message based on backend response
     - _Requirements: 7.2_
   
-  - [ ]* 16.3 Write E2E test for WHATSAPP notification flow
+  - [x] 16.3 Write E2E test for WHATSAPP notification flow
     - Navigate to application
     - Fill form with valid WHATSAPP data (E.164 format)
     - Submit form
     - Verify UI displays success message or error message based on backend response
     - _Requirements: 7.3_
   
-  - [ ]* 16.4 Write E2E test for notification query flow
+  - [x] 16.4 Write E2E test for notification query flow
     - Navigate to application
     - Apply filters (type, status, date range)
     - Trigger search
