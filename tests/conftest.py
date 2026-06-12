@@ -2,20 +2,32 @@
 Pytest configuration and fixtures for the Notification E2E Test Suite.
 
 This module provides shared fixtures for test isolation, page object models,
-test data management, and HTML report generation with execution time tracking.
+test data management, and HTML report generation with execution time tracking
+and automatic screenshot capture for all tests.
+
+Screenshot Configuration:
+- All tests automatically capture screenshots (pass and fail)
+- Screenshots stored in tests/reports/screenshots/ directory
+- Screenshots embedded/linked in pytest-html reports
+- Base64 encoded inline embedding for self-contained reports
 """
 
 import pytest
 import time
 import traceback
+import base64
 from playwright.sync_api import Page, BrowserContext, Browser
 from pathlib import Path
 from typing import Generator, Dict, Any
 from datetime import datetime
+from urllib.parse import urljoin
 
 
 # Global test metrics for execution time tracking
 test_metrics: Dict[str, Any] = {}
+
+# Global screenshot directory reference
+SCREENSHOTS_DIR = Path("tests/reports/screenshots")
 
 
 def pytest_configure(config):
@@ -25,6 +37,7 @@ def pytest_configure(config):
     - Report directories for HTML reports and screenshots
     - Pytest-html plugin configuration
     - Execution environment metadata
+    - Screenshot capture configuration
     """
     # Create reports directory if it doesn't exist
     reports_dir = Path("tests/reports")
@@ -40,6 +53,7 @@ def pytest_configure(config):
     
     # Store configuration for later use
     config.test_metrics = test_metrics
+    config.screenshots_dir = screenshots_dir
 
 
 def pytest_runtest_setup(item):
@@ -294,6 +308,116 @@ def cleanup(page: Page):
         pass
     except Exception:
         # Silent failure as per requirement 11.5
+        pass
+
+
+def pytest_html_report_title(config):
+    """Set custom title for pytest-html reports.
+    
+    Provides a descriptive title for the HTML report generation.
+    """
+    return "Notification E2E Test Suite - Test Report"
+
+
+def pytest_html_results_table_header(cells):
+    """Customize pytest-html results table header.
+    
+    Adds a screenshots column to the results table.
+    """
+    cells.insert(3, '<th class="sortable">Screenshot</th>')
+
+
+def pytest_html_results_table_row(report, cells):
+    """Customize pytest-html results table row.
+    
+    Adds screenshot links/images to each test result row.
+    
+    Features:
+    - Embeds screenshot as base64 inline image
+    - Falls back to file link if base64 encoding fails
+    - Shows tooltip with test status
+    - Maintains compatibility with pass/fail rows
+    """
+    test_id = report.nodeid
+    screenshot_cell = '<td>—</td>'
+    
+    try:
+        # Get screenshot info from test metrics
+        if test_id in test_metrics and 'screenshot' in test_metrics[test_id]:
+            screenshot_path = test_metrics[test_id]['screenshot']
+            screenshot_file = Path(screenshot_path)
+            
+            if screenshot_file.exists():
+                try:
+                    # Try to embed screenshot as base64 for self-contained HTML
+                    with open(screenshot_file, 'rb') as f:
+                        screenshot_data = base64.b64encode(f.read()).decode('utf-8')
+                    
+                    # Create embedded image with thumbnail preview
+                    screenshot_cell = f'''<td style="text-align: center;">
+                        <a href="data:image/png;base64,{screenshot_data}" 
+                           target="_blank" 
+                           title="Click to view screenshot">
+                            <img src="data:image/png;base64,{screenshot_data}" 
+                                 alt="Screenshot" 
+                                 style="max-width: 100px; max-height: 100px; cursor: pointer;" 
+                                 title="{screenshot_file.name}"/>
+                        </a>
+                    </td>'''
+                except Exception:
+                    # Fallback: use file link if base64 encoding fails
+                    rel_path = screenshot_file.relative_to(Path("tests/reports"))
+                    screenshot_cell = f'''<td style="text-align: center;">
+                        <a href="{rel_path}" target="_blank" title="View screenshot">
+                            📷
+                        </a>
+                    </td>'''
+    except Exception:
+        # Silent failure - use default cell
+        pass
+    
+    # Insert screenshot cell after test result status
+    cells.insert(3, screenshot_cell)
+
+
+def pytest_html_summary(report):
+    """Add screenshot summary section to pytest-html report.
+    
+    Adds:
+    - Total screenshots captured count
+    - Screenshot storage location
+    - Screenshot retrieval statistics
+    """
+    try:
+        # Count successful screenshots
+        screenshots_captured = sum(
+            1 for m in test_metrics.values() 
+            if 'screenshot' in m and Path(m.get('screenshot', '')).exists()
+        )
+        total_tests = len(test_metrics)
+        
+        if screenshots_captured > 0:
+            report.write('<h3>Screenshot Capture Summary</h3>')
+            report.write(f'<p>Screenshots captured: <strong>{screenshots_captured}/{total_tests}</strong> tests</p>')
+            report.write(f'<p>Storage location: <code>tests/reports/screenshots/</code></p>')
+            
+            # Show screenshot statistics by status
+            passed_with_screenshot = sum(
+                1 for m in test_metrics.values()
+                if m.get('status') == 'passed' and 'screenshot' in m
+            )
+            failed_with_screenshot = sum(
+                1 for m in test_metrics.values()
+                if m.get('status') == 'failed' and 'screenshot' in m
+            )
+            
+            report.write(f'<p>Screenshots by status:</p>')
+            report.write(f'<ul>')
+            report.write(f'<li>✓ Passed: {passed_with_screenshot}</li>')
+            report.write(f'<li>✗ Failed: {failed_with_screenshot}</li>')
+            report.write(f'</ul>')
+    except Exception:
+        # Silent failure
         pass
 
 
