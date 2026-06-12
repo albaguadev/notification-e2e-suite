@@ -1,0 +1,146 @@
+{
+  "400_bad_request_errors": [
+    {
+      "status": 400,
+      "response_status": 400,
+      "timestamp": "2024-01-15T10:30:45.123Z",
+      "message": "Bad Request",
+      "description": "Invalid email format provided. Please provide a valid RFC 5322 compliant email address."
+    },
+    {
+      "status": 400,
+      "response_status": 400,
+      "timestamp": "2024-01-15T10:31:20.456Z",
+      "message": "Bad Request",
+      "description": "Invalid phone number format. SMS notifications require a valid Spanish phone number in format +34XXXXXXXXX starting with 6 or 7."
+    },
+    {
+      "status": 400,
+      "response_status": 400,
+      "timestamp": "2024-01-15T10:32:05.789Z",
+      "message": "Bad Request",
+      "description": "Missing required field: 'message'. All notifications must include a message content."
+    },
+    {
+      "status": 400,
+      "response_status": 400,
+      "timestamp": "2024-01-15T10:33:10.111Z",
+      "message": "Bad Request",
+      "description": "Invalid notification type. Supported types are: EMAIL, SMS, WHATSAPP."
+    },
+    {
+      "status": 400,
+      "response_status": 400,
+      "timestamp": "2024-01-15T10:34:25.222Z",
+      "message": "Bad Request",
+      "description": "E.164 format required for WhatsApp. Please provide a phone number starting with + followed by country code and number."
+    }
+  ],
+  "404_not_found_errors": [
+    {
+      "status": 404,
+      "response_status": 404,
+      "timestamp": "2024-01-15T11:00:00.000Z",
+      "message": "Not Found",
+      "description": "The notification endpoint /api/v1/notifications was not found on the server."
+    },
+    {
+      "status": 404,
+      "response_status": 404,
+      "timestamp": "2024-01-15T11:01:15.333Z",
+      "message": "Not Found",
+      "description": "The requested notification with ID 'abc123def456' does not exist in the system."
+    },
+    {
+      "status": 404,
+      "response_status": 404,
+      "timestamp": "2024-01-15T11:02:30.444Z",
+      "message": "Not Found",
+      "description": "No notifications matching the specified query filters were found."
+    }
+  ],
+  "500_internal_server_error": [
+    {
+      "status": 500,
+      "response_status": 500,
+      "timestamp": "2024-01-15T11:30:00.000Z",
+      "message": "Internal Server Error",
+      "description": "An unexpected error occurred while processing your notification. Please try again later."
+    },
+    {
+      "status": 500,
+      "response_status": 500,
+      "timestamp": "2024-01-15T11:31:45.555Z",
+      "message": "Internal Server Error",
+      "description": "Database connection failed. The notification could not be stored at this time."
+    },
+    {
+      "status": 500,
+      "response_status": 500,
+      "timestamp": "2024-01-15T11:32:50.666Z",
+      "message": "Internal Server Error",
+      "description": "Failed to send notification through EMAIL channel: SMTP server unavailable."
+    },
+    {
+      "status": 500,
+      "response_status": 500,
+      "timestamp": "2024-01-15T11:34:10.777Z",
+      "message": "Internal Server Error",
+      "description": "Failed to send notification through SMS channel: SMS gateway unreachable."
+    }
+  ],
+  "503_service_unavailable": [
+    {
+      "status": 503,
+      "response_status": 503,
+      "timestamp": "2024-01-15T12:00:00.000Z",
+      "message": "Service Unavailable",
+      "description": "The notification service is currently unavailable. Please try again in a few moments."
+    },
+    {
+      "status": 503,
+      "response_status": 503,
+      "timestamp": "2024-01-15T12:01:30.888Z",
+      "message": "Service Unavailable",
+      "description": "The backend service is undergoing scheduled maintenance. We'll be back online shortly."
+    },
+    {
+      "status": 503,
+      "response_status": 503,
+      "timestamp": "2024-01-15T12:02:45.999Z",
+      "message": "Service Unavailable",
+      "description": "Too many requests. The server is temporarily overwhelmed. Please retry your request later."
+    },
+    {
+      "status": 503,
+      "response_status": 503,
+      "timestamp": "2024-01-15T12:04:00.101Z",
+      "message": "Service Unavailable",
+      "description": "Email service provider is currently unavailable. Notifications cannot be sent at this time."
+    }
+  ],
+  "malformed_error_responses": [
+    {
+      "status": 400,
+      "description": "Missing 'message' field in error response."
+    },
+    {
+      "response_status": 500,
+      "message": "Error Response",
+      "description": "Missing 'status' field in error response."
+    },
+    {
+      "status": 500,
+      "timestamp": "2024-01-15T13:00:00.000Z",
+      "message": "Server Error",
+      "description": "Valid response but status/response_status mismatch.",
+      "note": "status=500 but response_status should match"
+    },
+    "Invalid JSON string",
+    {
+      "status": 400,
+      "timestamp": "2024-01-15T13:05:00.000Z",
+      "message": "Incomplete error response without description field."
+    }
+  ]
+}

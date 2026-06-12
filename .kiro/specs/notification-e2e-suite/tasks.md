@@ -407,8 +407,8 @@ The implementation is organized to enable early validation through incremental d
     - Verify no error messages are shown for successful queries
     - _Requirements: 7.6_
 
-- [ ] 17. Implement test data management
-  - [ ] 17.1 Create test data files
+- [x] 17. Implement test data management
+  - [x] 17.1 Create test data files
     - Create data/valid_notifications.json with example valid notifications
     - Create data/invalid_notifications.json with example invalid inputs
     - Create data/error_responses.json with example error responses

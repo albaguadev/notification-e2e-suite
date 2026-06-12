@@ -1,0 +1,88 @@
+{
+  "email_notifications": [
+    {
+      "type": "EMAIL",
+      "recipient": "user@example.com",
+      "message": "Hello, this is a test email notification.",
+      "subject": "Test Email Notification"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "test.user+tag@domain.co.uk",
+      "message": "This is another email with a complex email address.",
+      "subject": "Complex Email Address Test"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "notification.service@mycompany.org",
+      "message": "Service notification from the system.",
+      "subject": "System Service Notification"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "support@notifications.io",
+      "message": "Welcome to our notification service! This email confirms your account is active.",
+      "subject": "Welcome to Our Service"
+    },
+    {
+      "type": "EMAIL",
+      "recipient": "admin@test-domain.com",
+      "message": "Important update: Your notification preferences have been changed.",
+      "subject": "Preferences Updated"
+    }
+  ],
+  "sms_notifications": [
+    {
+      "type": "SMS",
+      "recipient": "+34612345678",
+      "message": "Your SMS verification code is 123456. Valid for 10 minutes."
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34712345678",
+      "message": "Reminder: Your appointment is scheduled for tomorrow at 2:00 PM."
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34612987654",
+      "message": "Transaction confirmed: €50.00 has been transferred to your account."
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34789123456",
+      "message": "Your parcel has been delivered. Please collect it from the nearest location."
+    },
+    {
+      "type": "SMS",
+      "recipient": "+34632145679",
+      "message": "Alert: Unusual activity detected on your account. Please verify."
+    }
+  ],
+  "whatsapp_notifications": [
+    {
+      "type": "WHATSAPP",
+      "recipient": "+34612345678",
+      "message": "Hello! This is your WhatsApp notification message."
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+34712345678",
+      "message": "Your order has been confirmed. Tracking number: WA123456789"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+5511987654321",
+      "message": "Welcome! You have been added to our WhatsApp notification channel."
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+441234567890",
+      "message": "Your appointment confirmation: Dr. Smith - Monday 10:00 AM"
+    },
+    {
+      "type": "WHATSAPP",
+      "recipient": "+33612345678",
+      "message": "Notification: Your subscription will renew in 3 days. Reply STOP to cancel."
+    }
+  ]
+}
