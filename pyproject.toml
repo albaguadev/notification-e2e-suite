@@ -35,7 +35,41 @@ addopts = [
     "-v",
     "--tb=short",
     "--strict-markers",
+    "--html=tests/reports/test_report.html",
+    "--self-contained-html",
+    "--screenshot=on",
+    "--durations=10",
 ]
+
+# Pytest-HTML Plugin Configuration
+# The pytest-html plugin generates comprehensive HTML test reports with:
+# - Pass/fail status for all tests
+# - Execution time tracking for each test (shown in durations list)
+# - Detailed error messages and full stack traces for failures
+# - Screenshots for all tests (passed and failed) via auto_screenshot fixture
+# - Self-contained HTML reports for easy sharing and viewing
+#
+# Report Features:
+# - HTML report location: tests/reports/test_report.html
+# - Screenshots directory: tests/reports/screenshots/
+# - Automatic screenshot capture on test completion (via conftest.py auto_screenshot fixture)
+# - Execution metrics tracked via pytest hooks (pytest_runtest_setup, pytest_runtest_makereport, pytest_sessionfinish)
+# - Full traceback and error information for failed tests
+# - Test markers displayed in report (unit_test, property_test, e2e_test)
+# - Session summary with total counts and execution statistics
+#
+# Custom Execution Time Tracking:
+# - conftest.py tracks test execution time via pytest hooks
+# - Each test records start_time, end_time, and duration
+# - --durations=10 flag shows the 10 slowest tests
+# - Session statistics include: total_duration, avg_duration, slowest_tests
+#
+# Usage:
+# - pytest                           # Generate report in tests/reports/test_report.html
+# - pytest --html=custom_path.html   # Generate report at custom path
+# - pytest -v --tb=long              # More verbose output with longer tracebacks
+# - pytest --no-header               # Omit header in report
+# - pytest --show-capture=all        # Include captured stdout/stderr in report
 
 [tool.black]
 line-length = 100
