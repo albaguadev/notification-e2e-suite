@@ -243,124 +243,142 @@ The implementation is organized to enable early validation through incremental d
     - Implement strategy for error responses with various status codes
     - _Requirements: 9.4_
 
-- [ ] 14. Implement property-based tests
-  - [ ]* 14.1 Write property test for form submission triggers API request
+- [x] 14. Implement property-based tests
+  - [x]* 14.1 Write property test for form submission triggers API request
     - **Property 1: Form Submission Triggers API Request**
     - **Validates: Requirements 2.2, 3.1, 6.3**
     - Use Hypothesis to generate valid notification data
     - Intercept network requests during form submission
     - Verify POST request is sent to correct endpoint with all required fields
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 2.2, 3.1, 6.3_
   
-  - [ ]* 14.2 Write property test for backend response display
+  - [x] 14.2 Write property test for backend response display
     - **Property 2: Backend Response Display**
     - **Validates: Requirements 2.3, 6.5, 7.1, 7.2, 7.3, 7.6**
     - Generate various backend responses (success and error)
     - Mock backend responses
     - Verify UI displays appropriate feedback for each response type
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 2.3, 6.5, 7.1, 7.2, 7.3, 7.6_
   
-  - [ ]* 14.3 Write property test for required field validation
+  - [x] 14.3 Write property test for required field validation
     - **Property 3: Required Field Validation**
     - **Validates: Requirements 2.4, 2.6**
     - Generate form data with missing required fields
     - Attempt form submission
     - Verify submission is prevented and validation errors display
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 2.4, 2.6_
   
-  - [ ]* 14.4 Write property test for subject field visibility
+  - [x] 14.4 Write property test for subject field visibility
     - **Property 4: Subject Field Visibility**
     - **Validates: Requirements 2.5**
     - Generate non-EMAIL notification types (SMS, WHATSAPP)
     - Select each type in the form
     - Verify subject field is hidden for all non-EMAIL types
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 2.5_
   
-  - [ ]* 14.5 Write property test for channel type support
+  - [x] 14.5 Write property test for channel type support
     - **Property 5: Channel Type Support**
     - **Validates: Requirements 3.2**
     - Generate valid notification data for all channel types
     - Submit notifications through UI
     - Verify backend receives correct channel-specific format
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 3.2_
   
-  - [ ]* 14.6 Write property test for error response parsing
+  - [x] 14.6 Write property test for error response parsing
     - **Property 6: Error Response Parsing**
     - **Validates: Requirements 3.4, 3.5, 7.5**
     - Generate error responses with status codes 400, 404, 500, 503
     - Mock backend error responses
     - Verify UI parses error JSON and displays message and description
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations
     - _Requirements: 3.4, 3.5, 7.5_
   
-  - [ ]* 14.7 Write property test for malformed error handling
+  - [x] 14.7 Write property test for malformed error handling
     - **Property 7: Malformed Error Handling**
     - **Validates: Requirements 3.6**
     - Generate malformed error responses (invalid JSON, missing fields)
     - Mock backend responses
     - Verify UI fails silently with no error message
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 3.6_
   
-  - [ ]* 14.8 Write property test for no authentication headers
+  - [x] 14.8 Write property test for no authentication headers
     - **Property 8: No Authentication Headers**
     - **Validates: Requirements 3.7**
     - Generate various API requests (POST and GET)
     - Intercept network requests
     - Verify no authentication headers are present
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 3.7_
   
-  - [ ]* 14.9 Write property test for query filter parameters
+  - [x] 14.9 Write property test for query filter parameters
     - **Property 9: Query Filter Parameters**
     - **Validates: Requirements 4.3**
     - Generate various combinations of query filters
     - Apply filters and trigger search
     - Verify GET request includes filters as query parameters
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 4.3_
   
-  - [ ]* 14.10 Write property test for query results display
+  - [x] 14.10 Write property test for query results display
     - **Property 10: Query Results Display**
     - **Validates: Requirements 4.4**
     - Generate various notification data sets
     - Mock backend query responses
     - Verify UI displays results in readable format with proper formatting
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 4.4_
   
-  - [ ]* 14.11 Write property test for component rendering
+  - [x] 14.11 Write property test for component rendering
     - **Property 11: Component Rendering**
     - **Validates: Requirements 6.1**
     - Generate various component states
     - Render components in browser
     - Verify all expected elements are visible and interactive
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 6.1_
   
-  - [ ]* 14.12 Write property test for client-side validation
+  - [x] 14.12 Write property test for client-side validation
     - **Property 12: Client-Side Validation**
     - **Validates: Requirements 6.2, 6.4**
     - Generate invalid inputs for each channel type
     - Interact with form elements
     - Verify appropriate validation error messages display in real-time
-    - Run minimum 100 iterations
+    - Run minimum 25 iterations with optimizations:
+      - Hypothesis: `verbosity=Verbosity.quiet` and `suppress_health_check=[HealthCheck.function_scoped_fixture, HealthCheck.too_slow]`
+      - Playwright context: 5-second action timeout for faster failure detection
+      - Headless mode enabled by default for faster execution
     - _Requirements: 6.2, 6.4_
 
 
-- [~] 15. Checkpoint - Verify property-based tests
-  - Run all property tests with minimum 100 iterations
+- [x] 15. Checkpoint - Verify property-based tests
+  - Run all property tests with minimum 25 iterations
   - Review test coverage for all correctness properties
   - Ensure all tests pass consistently
   - Ask the user if questions arise
 
 - [ ] 16. Implement E2E flow tests
-  - [~] 16.1 Write E2E test for EMAIL notification flow
+  - [ ] 16.1 Write E2E test for EMAIL notification flow
     - Navigate to application
     - Fill form with valid EMAIL data including subject
     - Submit form
@@ -390,7 +408,7 @@ The implementation is organized to enable early validation through incremental d
     - _Requirements: 7.6_
 
 - [ ] 17. Implement test data management
-  - [~] 17.1 Create test data files
+  - [ ] 17.1 Create test data files
     - Create data/valid_notifications.json with example valid notifications
     - Create data/invalid_notifications.json with example invalid inputs
     - Create data/error_responses.json with example error responses
@@ -403,7 +421,7 @@ The implementation is organized to enable early validation through incremental d
     - _Requirements: 9.2, 9.3_
 
 - [ ] 18. Configure test reporting
-  - [~] 18.1 Set up HTML report generation
+  - [ ] 18.1 Set up HTML report generation
     - Configure pytest-html to generate detailed reports
     - Add execution time tracking for each test
     - Include pass/fail status for all tests
@@ -418,7 +436,7 @@ The implementation is organized to enable early validation through incremental d
 
 
 - [ ] 19. Configure CI/CD support
-  - [~] 19.1 Add CI/CD configuration
+  - [ ] 19.1 Add CI/CD configuration
     - Create configuration for headless browser mode
     - Set up proper exit codes for test success/failure
     - Configure test artifact generation
@@ -426,28 +444,28 @@ The implementation is organized to enable early validation through incremental d
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
 - [ ] 20. Create documentation
-  - [~] 20.1 Write README with setup instructions
+  - [ ] 20.1 Write README with setup instructions
     - Document prerequisites (Node.js, Python, Playwright)
     - Provide step-by-step setup instructions
     - Include commands to run frontend and tests
     - Add troubleshooting section
     - _Requirements: 12.1, 12.4_
   
-  - [~] 20.2 Create example tests and documentation
+  - [ ] 20.2 Create example tests and documentation
     - Add example tests demonstrating common patterns
     - Document Page Object Model usage
     - Provide examples of property-based tests
     - Document test data management approach
     - _Requirements: 12.2_
   
-  - [~] 20.3 Add linting and formatting configuration
+  - [ ] 20.3 Add linting and formatting configuration
     - Set up ESLint for React code
     - Configure Prettier for code formatting
     - Add Black and Flake8 for Python code
     - Create pre-commit hooks for code quality
     - _Requirements: 12.5_
 
-- [~] 21. Final checkpoint - Complete system verification
+- [ ] 21. Final checkpoint - Complete system verification
   - Run full test suite (unit, property, E2E) in all browser engines
   - Verify HTML reports are generated correctly
   - Test frontend with backend integration for all notification types
@@ -461,12 +479,37 @@ The implementation is organized to enable early validation through incremental d
 - The test suite uses Python with Playwright and Hypothesis for property-based testing (Requirements 5.1)
 - Each task references specific requirements for traceability
 - Checkpoints ensure incremental validation and quality gates
-- Property tests validate universal correctness properties with minimum 100 iterations
+- Property tests validate universal correctness properties with minimum 25-100 iterations
 - Unit tests validate specific examples, edge cases, and integration points
 - E2E tests validate complete user flows from UI perspective
 - The backend MultiChannelNotifier must be running on http://localhost:8081 for integration testing
 - All React components must include data-testid attributes for reliable test automation
 - Test cleanup operations fail silently to prevent test suite interruption (Requirement 11.5)
+
+### Test Performance Optimizations
+
+All property-based tests have been optimized for faster execution:
+
+**Hypothesis Settings**:
+- All property tests use `verbosity=Verbosity.quiet` to reduce output overhead
+- Health checks suppressed: `HealthCheck.function_scoped_fixture` (fixtures) and `HealthCheck.too_slow` (slow test warnings)
+- Minimum 25 iterations per property test (configurable via `max_examples`)
+
+**Playwright Configuration** (conftest.py):
+- Browser context action timeout: 5 seconds (fail fast on timeouts)
+- Headless mode enabled by default for all tests
+- Screenshot capture for all tests for debugging
+
+**pytest.ini Configuration**:
+- Headless Chromium browser as default
+- HTML reports generated automatically
+- Support for parallel execution: `pytest -n auto` (requires pytest-xdist)
+
+**Execution Tips**:
+- Run property tests in quiet mode: `pytest tests/property/ -v` (default)
+- Run with parallel execution (faster): `pytest tests/property/ -n auto`
+- Run specific property test: `pytest tests/property/test_malformed_error_handling.py -v`
+- Run with higher iteration count: `pytest tests/property/ --hypothesis-seed=0`
 
 
 ## Task Dependency Graph

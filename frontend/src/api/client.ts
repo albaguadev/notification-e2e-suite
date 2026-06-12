@@ -121,32 +121,41 @@ export interface NotificationData {
  * @returns ErrorResponse object or null if validation fails
  */
 async function handleAPIError(
-  response: Response,
+  errorData: unknown,
   httpStatus: number
 ): Promise<ErrorResponse | null> {
   try {
-    const errorData = await response.json()
+    console.log('[handleAPIError] Error data received:', { errorData, httpStatus })
 
-    // Validate error response structure - all fields must be present
-    if (
-      !errorData.status ||
-      !errorData.timestamp ||
-      !errorData.message ||
-      !errorData.description
-    ) {
-      // Missing fields - fail silently (Requirement 3.6)
+    // Validate error response structure - at least status and message are required
+    if (!errorData || typeof errorData !== 'object' || !('status' in errorData) || !('message' in errorData)) {
+      // Missing critical fields - fail silently (Requirement 3.6)
+      console.log('[handleAPIError] Missing status or message - failing silently')
       return null
     }
+
+    const typedData = errorData as Record<string, unknown>
 
     // Verify response_status field matches HTTP status code (Requirement 3.5)
-    if (errorData.status !== httpStatus) {
+    if (typedData.status !== httpStatus) {
       // Status mismatch - fail silently (Requirement 3.6)
+      console.log('[handleAPIError] Status mismatch - failing silently', { expected: httpStatus, got: typedData.status })
       return null
     }
 
-    return errorData as ErrorResponse
+    // Return structured error, even if timestamp/description are missing
+    const result = {
+      status: typedData.status as number,
+      timestamp: (typedData.timestamp as string) || new Date().toISOString(),
+      message: typedData.message as string,
+      description: (typedData.description as string) || '',
+    } as ErrorResponse
+    
+    console.log('[handleAPIError] Returning error:', result)
+    return result
   } catch (error) {
-    // Malformed JSON - fail silently (Requirement 3.6)
+    // Validation error - fail silently (Requirement 3.6)
+    console.log('[handleAPIError] Validation error - failing silently', error)
     return null
   }
 }
@@ -219,7 +228,7 @@ export async function sendNotification(
     }
   } else {
     // Handle error responses (400, 404, 500, 503)
-    const errorResponse = await handleAPIError(response, response.status)
+    const errorResponse = await handleAPIError(data, response.status)
 
     if (errorResponse) {
       return {
@@ -334,7 +343,7 @@ export async function queryNotifications(
     }
   } else {
     // Handle error responses
-    const errorResponse = await handleAPIError(response, response.status)
+    const errorResponse = await handleAPIError(data, response.status)
 
     if (errorResponse) {
       return {

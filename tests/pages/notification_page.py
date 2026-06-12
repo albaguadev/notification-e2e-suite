@@ -98,6 +98,8 @@ class NotificationPage:
         try:
             # Wait for status message to appear (with timeout)
             self.status_message.wait_for(state='visible', timeout=5000)
+            # Give React time to process async state updates
+            self.page.wait_for_timeout(300)
             return self.status_message.text_content() or ''
         except Exception:
             # Return empty string if status message is not visible
