@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+.venv/
+package-lock.json
+__pycache__/
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Test reports and coverage
+reports/
+coverage/
+.pytest_cache/
+.hypothesis/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spec and config files
+.kiro/
+.github/
+.git/
+
+# Pre-generated files
+Jenkinsfile
+.gitlab-ci.yml

@@ -1,0 +1,118 @@
+repos:
+  # ESLint for JavaScript/TypeScript
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v10.3.0
+    hooks:
+      - id: eslint
+        name: ESLint
+        description: Run ESLint on JavaScript/TypeScript files
+        entry: npx eslint
+        language: node
+        types: [javascript, jsx, ts, tsx]
+        stages: [commit]
+        args:
+          - --fix
+          - --max-warnings=0
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/)
+        require_serial: false
+
+  # Prettier for code formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        name: Prettier
+        description: Format code with Prettier
+        types_or:
+          - javascript
+          - jsx
+          - ts
+          - tsx
+          - json
+          - yaml
+          - markdown
+        stages: [commit]
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/)
+        require_serial: false
+
+  # Black for Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        name: Black
+        description: Format Python code with Black
+        language: python
+        types: [python]
+        stages: [commit]
+        args:
+          - --line-length=100
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/|frontend/)
+        require_serial: false
+
+  # Flake8 for Python code linting
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        name: Flake8
+        description: Lint Python code with Flake8
+        language: python
+        types: [python]
+        stages: [commit]
+        args:
+          - --max-line-length=100
+          - --extend-ignore=E203,W503
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/|frontend/)
+        require_serial: false
+
+  # YAML validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+        name: Check YAML
+        description: Validate YAML files
+        files: \.(yaml|yml)$
+        exclude: ^(\.kiro/|\.git/)
+      
+      - id: end-of-file-fixer
+        name: Fix End of File
+        description: Ensure files end with a newline character
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/)
+      
+      - id: trailing-whitespace
+        name: Trim Trailing Whitespace
+        description: Remove trailing whitespace
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/)
+      
+      - id: check-json
+        name: Check JSON
+        description: Validate JSON files
+        files: \.json$
+        exclude: ^(node_modules/|\.venv/|\.git/)
+
+  # Sort imports (isort)
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        name: isort
+        description: Sort Python imports
+        language: python
+        types: [python]
+        stages: [commit]
+        args:
+          - --profile=black
+          - --line-length=100
+        exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/|frontend/)
+        require_serial: false
+
+# Configuration
+default_stages: [commit]
+fail_fast: false
+exclude: ^(node_modules/|\.venv/|dist/|build/|\.kiro/|\.git/|\.hypothesis/)
+
+# Run hooks with specific environment variables
+env:
+  PYTHONHASHSEED: '0'
